@@ -16,10 +16,7 @@ public final class RivalsSellChestPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        new VersionChecker().initialize();
-
-        // Call on plugin load to check version
-        NMSSetup.setup();
+        new VersionChecker().verifyVersionSupport();
     }
 
     @Override
