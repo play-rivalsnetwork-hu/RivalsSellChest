@@ -1,0 +1,8 @@
+# Whether to allow bStats monitoring for this plugin.
+allow-bStats: false
+
+# Whether to check for updates
+check-updates: false
+
+# Do not change! This is for internal use only.
+config-version: 1

@@ -4,6 +4,8 @@ import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
 import org.bukkit.Bukkit;
 
+import java.util.logging.Level;
+
 public class VersionChecker {
     private static final String[] SUPPORTED_VERSIONS = new String[]{"v1_19_R2"};
     private static boolean isVersionSupported = false;
@@ -32,10 +34,10 @@ public class VersionChecker {
         initialize();
 
         if (!isVersionSupported) {
-            MessageUtil.logWarning("The server version you are using is not yet supported!");
-            MessageUtil.logWarning("Please check if your server version is supported.");
-            MessageUtil.logWarning("If not, and this is a new version, please look out for an update!");
-            MessageUtil.logWarning("Disabling!");
+            MessageUtil.log(Level.WARNING, "The server version you are using is not yet supported!");
+            MessageUtil.log(Level.WARNING, "Please check if your server version is supported.");
+            MessageUtil.log(Level.WARNING, "If not, and this is a new version, please look out for an update!");
+            MessageUtil.log(Level.WARNING, "Disabling!");
 
             Bukkit.getPluginManager().disablePlugin(RivalsSellChestPlugin.getInstance());
         }
