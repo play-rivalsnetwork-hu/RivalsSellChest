@@ -2,6 +2,7 @@ package hu.rivalsnetwork.rivalssellchest.user;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChest;
+import hu.rivalsnetwork.rivalssellchest.chests.PlacedChestLoader;
 import hu.rivalsnetwork.rivalssellchest.util.serializer.LocationSerializer;
 
 import java.io.IOException;
@@ -12,8 +13,8 @@ public class SellChestUser {
     private final UUID uuid;
     private String name;
     private double boost;
-    private List<PlacedChest> chests;
-    private int placedChests;
+    private List<PlacedChest> placedChests;
+    private int chestAmount;
     private YamlDocument file;
 
     public SellChestUser(UUID uuid) {
@@ -42,21 +43,21 @@ public class SellChestUser {
         return this;
     }
 
-    public List<PlacedChest> chests() {
-        return chests;
-    }
-
-    public SellChestUser setChests(List<PlacedChest> chests) {
-        this.chests = chests;
-        return this;
-    }
-
-    public int placedChests() {
+    public List<PlacedChest> placedChests() {
         return placedChests;
     }
 
-    public SellChestUser setPlacedChests(int placedChests) {
+    public SellChestUser setChests(List<PlacedChest> placedChests) {
         this.placedChests = placedChests;
+        return this;
+    }
+
+    public int chestAmount() {
+        return chestAmount;
+    }
+
+    public SellChestUser setPlacedChests(int chestAmount) {
+        this.chestAmount = chestAmount;
         return this;
     }
 
@@ -71,7 +72,7 @@ public class SellChestUser {
 
     public void save() {
         int i = 0;
-        for (PlacedChest chest : chests) {
+        for (PlacedChest chest : placedChests) {
             set("money", i, chest.money());
             set("items-sold", i, chest.itemsSold());
             set("autosell", i, chest.autoSellEnabled());
@@ -87,6 +88,11 @@ public class SellChestUser {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    public void load() {
+        UserFileHandler.createFile(this);
+        PlacedChestLoader.load(this);
     }
 
     private void set(String string, int i, Object obj) {

@@ -13,7 +13,7 @@ public class PlacedChest {
     private boolean bank;
     private AbstractChest abstractChest;
     private double money;
-    private int itemsSold;
+    private long itemsSold;
 
     public double money() {
         return money;
@@ -24,11 +24,11 @@ public class PlacedChest {
         return this;
     }
 
-    public int itemsSold() {
+    public long itemsSold() {
         return itemsSold;
     }
 
-    public PlacedChest setItemsSold(int itemsSold) {
+    public PlacedChest setItemsSold(long itemsSold) {
         this.itemsSold = itemsSold;
         return this;
     }

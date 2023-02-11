@@ -13,6 +13,6 @@ public class UserConnectionListener implements Listener {
     public void onPlayerJoinEvent(@NotNull PlayerJoinEvent event) {
         SellChestUser user = new SellChestUser(event.getPlayer().getUniqueId());
         UserFileHandler.createFile(user);
-
+        user.load();
     }
 }

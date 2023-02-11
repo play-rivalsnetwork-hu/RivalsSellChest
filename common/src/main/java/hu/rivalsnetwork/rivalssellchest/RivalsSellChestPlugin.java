@@ -4,7 +4,7 @@ import hu.rivalsnetwork.rivalssellchest.chests.ChestTicker;
 import hu.rivalsnetwork.rivalssellchest.command.SellChestCommand;
 import hu.rivalsnetwork.rivalssellchest.config.ConfigLoader;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
-import hu.rivalsnetwork.rivalssellchest.version.VersionChecker;
+import hu.rivalsnetwork.rivalssellchest.version.ServerVersionChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,7 +22,7 @@ public final class RivalsSellChestPlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        new VersionChecker().verifyVersionSupport();
+        new ServerVersionChecker().verifyVersionSupport();
         new ConfigLoader().loadConfigs();
         MessageUtil.update();
 

@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 public class UserFileHandler {
 
@@ -17,10 +16,5 @@ public class UserFileHandler {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-    }
-
-    public static boolean hasFile(@NotNull UUID uuid) {
-        File file = new File(RivalsSellChestPlugin.getInstance().getDataFolder(), "/playerdata/" + uuid + ".yml");
-        return file.exists();
     }
 }

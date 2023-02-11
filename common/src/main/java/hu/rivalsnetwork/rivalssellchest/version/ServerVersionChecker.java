@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 
 import java.util.logging.Level;
 
-public class VersionChecker {
+public class ServerVersionChecker {
     private static final String[] SUPPORTED_VERSIONS = new String[]{"v1_19_R2"};
     private static boolean isVersionSupported = false;
     private static String serverVersion;
