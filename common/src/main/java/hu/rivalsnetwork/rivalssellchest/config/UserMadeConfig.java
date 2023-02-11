@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
 import hu.rivalsnetwork.rivalssellchest.chests.AbstractChest;
+import hu.rivalsnetwork.rivalssellchest.chests.ChestTicker;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
 
 import java.io.File;
@@ -16,7 +17,7 @@ import java.util.logging.Level;
 
 public class UserMadeConfig extends AbstractConfig {
     private final List<YamlDocument> configs = new ArrayList<>();
-    private final List<AbstractChest> chests = new ArrayList<>();
+    private static List<AbstractChest> chests = new ArrayList<>();
     private final InputStream defaults = RivalsSellChestPlugin.getInstance().getResource("chests/default.yml");
 
     @Override
@@ -65,11 +66,11 @@ public class UserMadeConfig extends AbstractConfig {
                     .setFile(document);
 
             chests.add(chest);
-            System.out.println(chest);
+            new ChestTicker().tick(chest);
         }
     }
 
-    public List<AbstractChest> getChests() {
+    public static List<AbstractChest> getChests() {
         return chests;
     }
 }

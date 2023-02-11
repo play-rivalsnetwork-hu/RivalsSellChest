@@ -23,7 +23,7 @@ public class VersionChecker {
         serverVersion = RivalsSellChestPlugin.getInstance().getServer().getClass().getPackage().getName().split("\\.")[3];
 
         for (String version : SUPPORTED_VERSIONS) {
-            if (version.contains(serverVersion)) {
+            if (serverVersion.contains(version)) {
                 isVersionSupported = true;
                 break;
             }

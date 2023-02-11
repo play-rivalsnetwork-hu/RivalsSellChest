@@ -1,4 +1,7 @@
 messages:
-  prefix: ""
+  prefix: "<gradient:#FBFB7F:#FD9B48><b>RivalsSellChest</gradient></b> <gray>» <reset>"
+  no-permission: "<red>You don't have permission to do this!"
+  break: ""
+  place: ""
 
 config-version: 1

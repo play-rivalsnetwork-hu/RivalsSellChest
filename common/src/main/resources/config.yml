@@ -1,12 +1,26 @@
+# Hooks
 hooks:
   hologram: "DecentHolograms" # Possible values: DecentHolograms, none
   economy: "Vault" # Possible values: Vault, none
-  bank: "" # Possible values: SuperiorSkyBlock, none
+  bank: "SuperiorSkyBlock" # Possible values: SuperiorSkyBlock, none
   stacker: "WildStacker" # Possible values: WildStacker, RoseStacker, none
   price: "ShopGuiPlus" # Possible values: ShopGuiPlus, EssentialsX, Local
 
-allow-bStats: false # Whether to allow bStats monitoring for this plugin.
+# Whether to allow bStats monitoring for this plugin.
+allow-bStats: false
 
-check-updates: false # Whether to check for updates
+# Whether to check for updates
+check-updates: false
 
-config-version: 1 # Do not change! This is for internal use only.
+storage:
+  type: local # Available options: local, MySQL, MariaDB,
+  address: ""
+  password: ""
+  username: ""
+  database: ""
+
+# Allow debug
+debug: false
+
+# Do not change! This is for internal use only.
+config-version: 1
