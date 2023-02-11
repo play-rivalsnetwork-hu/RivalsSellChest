@@ -26,6 +26,6 @@ public class PlacedChestLoader {
 
             placedChests.add(placedChest);
         }
-        user.setChests(placedChests);
+        user.setPlacedChests(placedChests);
     }
 }

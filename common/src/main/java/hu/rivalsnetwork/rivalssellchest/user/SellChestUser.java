@@ -16,6 +16,7 @@ public class SellChestUser {
     private List<PlacedChest> placedChests;
     private int chestAmount;
     private YamlDocument file;
+    private int loop;
 
     public SellChestUser(UUID uuid) {
         this.uuid = uuid;
@@ -47,7 +48,7 @@ public class SellChestUser {
         return placedChests;
     }
 
-    public SellChestUser setChests(List<PlacedChest> placedChests) {
+    public SellChestUser setPlacedChests(List<PlacedChest> placedChests) {
         this.placedChests = placedChests;
         return this;
     }
@@ -56,7 +57,7 @@ public class SellChestUser {
         return chestAmount;
     }
 
-    public SellChestUser setPlacedChests(int chestAmount) {
+    public SellChestUser setChestAmount(int chestAmount) {
         this.chestAmount = chestAmount;
         return this;
     }
@@ -71,17 +72,17 @@ public class SellChestUser {
     }
 
     public void save() {
-        int i = 0;
         for (PlacedChest chest : placedChests) {
-            set("money", i, chest.money());
-            set("items-sold", i, chest.itemsSold());
-            set("autosell", i, chest.autoSellEnabled());
-            set("chunk-collector", i, chest.chunkCollectEnabled());
-            set("bank", i, chest.bank());
-            set("type", i, chest.abstractChest().name());
-            set("location", i, LocationSerializer.serialize(chest.location()));
-            i++;
+            set("money", loop, chest.money());
+            set("items-sold", loop, chest.itemsSold());
+            set("autosell", loop, chest.autoSellEnabled());
+            set("chunk-collector", loop, chest.chunkCollectEnabled());
+            set("bank", loop, chest.bank());
+            set("type", loop, chest.abstractChest().name());
+            set("location", loop, LocationSerializer.serialize(chest.location()));
+            loop++;
         }
+        loop = 0;
 
         try {
             file.save();
@@ -93,6 +94,16 @@ public class SellChestUser {
     public void load() {
         UserFileHandler.createFile(this);
         PlacedChestLoader.load(this);
+        setBoost(file.getDouble("boost"));
+        setName(file.getString("name"));
+        setChestAmount(file.getSection("chests").getKeys().size());
+
+        Users.addUser(this);
+    }
+
+    public void unload() {
+        save();
+        Users.removeUser(this);
     }
 
     private void set(String string, int i, Object obj) {
