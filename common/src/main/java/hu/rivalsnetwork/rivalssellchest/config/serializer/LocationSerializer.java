@@ -1,4 +1,4 @@
-package hu.rivalsnetwork.rivalssellchest.util.serializer;
+package hu.rivalsnetwork.rivalssellchest.config.serializer;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.Bukkit;

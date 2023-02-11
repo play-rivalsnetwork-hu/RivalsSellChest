@@ -1,25 +1,25 @@
 package hu.rivalsnetwork.rivalssellchest.chests;
 
 import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
-import it.unimi.dsi.fastutil.Pair;
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChestTicker implements Listener {
-    public static HashMap<Chunk, Pair<AbstractChest, Player>> chunkChestMap = new HashMap<>();
+    public static List<PlacedChest> chestList = new ArrayList<>();
 
     public void tick(@NotNull AbstractChest chest) {
-        Bukkit.getScheduler().runTaskTimer(RivalsSellChestPlugin.getInstance(), () -> chunkChestMap.forEach((chunk, abstractChest) -> {
-            if (chunk == null) return;
-            if (abstractChest == null) return;
-            if (!chunk.isLoaded()) return;
+        Bukkit.getScheduler().runTaskTimer(RivalsSellChestPlugin.getInstance(), () -> {
+            for (PlacedChest placedChest : chestList) {
+                placedChest.location().getWorld().getChunkAtAsync(placedChest.location()).thenAcceptAsync(chunk -> {
+                    if (!chunk.isLoaded()) return;
 
-
-        }), 0L, chest.sellInterval());
+                    System.out.println("Debug");
+                });
+            }
+        }, 0L, chest.sellInterval());
     }
 }

@@ -3,12 +3,13 @@ package hu.rivalsnetwork.rivalssellchest.user;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChest;
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChestLoader;
-import hu.rivalsnetwork.rivalssellchest.util.serializer.LocationSerializer;
+import hu.rivalsnetwork.rivalssellchest.config.serializer.LocationSerializer;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("UnusedReturnValue")
 public class SellChestUser {
     private final UUID uuid;
     private String name;

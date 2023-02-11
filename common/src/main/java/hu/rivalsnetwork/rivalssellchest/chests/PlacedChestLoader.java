@@ -3,7 +3,7 @@ package hu.rivalsnetwork.rivalssellchest.chests;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import hu.rivalsnetwork.rivalssellchest.config.UserMadeConfig;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
-import hu.rivalsnetwork.rivalssellchest.util.serializer.LocationSerializer;
+import hu.rivalsnetwork.rivalssellchest.config.serializer.LocationSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
