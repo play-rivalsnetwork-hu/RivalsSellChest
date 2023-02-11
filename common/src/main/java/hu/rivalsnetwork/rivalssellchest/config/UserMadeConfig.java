@@ -1,24 +1,36 @@
 package hu.rivalsnetwork.rivalssellchest.config;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Verify;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
+import hu.rivalsnetwork.rivalssellchest.chests.AbstractChest;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
 public class UserMadeConfig extends AbstractConfig {
-    private static List<YamlDocument> configs = new ArrayList<>();
+    private final List<YamlDocument> configs = new ArrayList<>();
+    private final List<AbstractChest> chests = new ArrayList<>();
+    private final InputStream defaults = RivalsSellChestPlugin.getInstance().getResource("chests/default.yml");
 
     @Override
     public void initialize() {
         final File sellChestFolder = new File(RivalsSellChestPlugin.getInstance().getDataFolder(), "/chests");
-        if (!sellChestFolder.exists()) sellChestFolder.mkdir();
+        if (!sellChestFolder.exists()) {
+            sellChestFolder.mkdir();
+            try {
+                Preconditions.checkNotNull(defaults, "Could not find defaults.yml in plugin's resources!");
+                Files.copy(defaults, sellChestFolder.toPath());
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
 
         File[] userMadeConfigs = sellChestFolder.listFiles();
 
@@ -36,5 +48,25 @@ public class UserMadeConfig extends AbstractConfig {
                 throw new RuntimeException(exception);
             }
         }
+        loadChests();
+    }
+
+    private void loadChests() {
+        for (YamlDocument document : configs) {
+            AbstractChest chest = new AbstractChest()
+                    .setBoost(document.getDouble("boost"))
+                    .setSellInterval(document.getLong("sell-interval"))
+                    .setHologramEnabled(document.getBoolean("hologram.enabled"))
+                    .setHologramLines(document.getList("hologram.lines"))
+                    .setHologramUpdateTicks(document.getLong("hologram.update"))
+                    .setHologramHeight(document.getDouble("hologram.height"))
+                    .setPersistentStats(document.getBoolean("persistent-stats"));
+
+            chests.add(chest);
+        }
+    }
+
+    public List<AbstractChest> getChests() {
+        return chests;
     }
 }

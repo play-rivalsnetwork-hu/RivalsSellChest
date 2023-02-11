@@ -1,1 +1,17 @@
 name: ""
+
+# Amount of ticks between attempting sales. 1 second = 20 ticks
+sell-interval: 200
+
+boost: 1
+
+persistent-stats: true
+
+hologram:
+  enabled: true
+  update: 5
+  height: 1.2
+  lines:
+    - ""
+    - ""
+    - ""

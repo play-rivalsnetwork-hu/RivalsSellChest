@@ -1,3 +1,11 @@
+# Hooks
+hooks:
+  hologram: "DecentHolograms" # Possible values: DecentHolograms, none
+  economy: "Vault" # Possible values: Vault, none
+  bank: "" # Possible values: SuperiorSkyBlock, none
+  stacker: "WildStacker" # Possible values: WildStacker, RoseStacker, none
+  price: "ShopGuiPlus" # Possible values: ShopGuiPlus, EssentialsX, Local
+
 # Whether to allow bStats monitoring for this plugin.
 allow-bStats: false
 
