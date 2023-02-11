@@ -28,7 +28,7 @@ public class Config extends AbstractConfig {
     public void initialize() {
         try {
             Preconditions.checkNotNull(defaults, "Could not find config.yml in plugin's resources!");
-            config = YamlDocument.create(new File(RivalsSellChestPlugin.getInstance().getDataFolder(), "config.yml"), defaults, GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.builder().setFlowStyle(FlowStyle.FLOW).setIndentation(4).setScalarStyle(ScalarStyle.DOUBLE_QUOTED).setMultilineStyle(true).build(), UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
+            config = YamlDocument.create(new File(RivalsSellChestPlugin.getInstance().getDataFolder(), "config.yml"), defaults, GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.builder().setFlowStyle(FlowStyle.BLOCK).setIndentation(4).setScalarStyle(ScalarStyle.DOUBLE_QUOTED).setMultilineStyle(true).build(), UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }

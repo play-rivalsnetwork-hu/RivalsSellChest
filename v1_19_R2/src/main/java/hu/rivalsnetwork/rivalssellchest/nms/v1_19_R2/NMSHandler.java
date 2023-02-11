@@ -1,4 +1,4 @@
-package hu.rivalsnetwork.rivalssellchest;
+package hu.rivalsnetwork.rivalssellchest.nms.v1_19_R2;
 
 import net.minecraft.world.entity.item.ItemEntity;
 import org.bukkit.Chunk;

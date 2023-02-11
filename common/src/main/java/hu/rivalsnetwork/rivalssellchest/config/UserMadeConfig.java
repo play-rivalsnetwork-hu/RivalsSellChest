@@ -26,7 +26,7 @@ public class UserMadeConfig extends AbstractConfig {
             sellChestFolder.mkdir();
             try {
                 Preconditions.checkNotNull(defaults, "Could not find defaults.yml in plugin's resources!");
-                Files.copy(defaults, sellChestFolder.toPath());
+                Files.copy(defaults, new File(sellChestFolder.toString(), "/default.yml").toPath());
             } catch (IOException exception) {
                 exception.printStackTrace();
             }

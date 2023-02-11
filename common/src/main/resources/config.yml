@@ -1,4 +1,3 @@
-# Hooks
 hooks:
   hologram: "DecentHolograms" # Possible values: DecentHolograms, none
   economy: "Vault" # Possible values: Vault, none
@@ -6,11 +5,8 @@ hooks:
   stacker: "WildStacker" # Possible values: WildStacker, RoseStacker, none
   price: "ShopGuiPlus" # Possible values: ShopGuiPlus, EssentialsX, Local
 
-# Whether to allow bStats monitoring for this plugin.
-allow-bStats: false
+allow-bStats: false # Whether to allow bStats monitoring for this plugin.
 
-# Whether to check for updates
-check-updates: false
+check-updates: false # Whether to check for updates
 
-# Do not change! This is for internal use only.
-config-version: 1
+config-version: 1 # Do not change! This is for internal use only.
