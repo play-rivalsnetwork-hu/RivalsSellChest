@@ -1,6 +1,5 @@
 package hu.rivalsnetwork.rivalssellchest.nms;
 
-import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
 import hu.rivalsnetwork.rivalssellchest.version.VersionChecker;
 
 import java.lang.reflect.InvocationTargetException;

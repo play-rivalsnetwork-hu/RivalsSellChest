@@ -40,6 +40,9 @@ public class VersionChecker {
             MessageUtil.log(Level.WARNING, "Disabling!");
 
             Bukkit.getPluginManager().disablePlugin(RivalsSellChestPlugin.getInstance());
+        } else {
+            MessageUtil.log(Level.INFO, "The version you are using is supported!");
+            MessageUtil.log(Level.INFO, "Version: " + serverVersion);
         }
     }
 }

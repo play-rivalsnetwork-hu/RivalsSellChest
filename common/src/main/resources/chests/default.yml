@@ -1,4 +1,4 @@
-name: ""
+name: "Default"
 
 # Amount of ticks between attempting sales. 1 second = 20 ticks
 sell-interval: 200

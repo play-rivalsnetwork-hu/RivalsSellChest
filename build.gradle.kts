@@ -1,3 +1,4 @@
+import net.minecrell.pluginyml.bukkit.BukkitPlugin
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 
 plugins {
@@ -67,6 +68,10 @@ bukkit {
     load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
     authors = listOf("Karcsi", "BenceX100")
     description = "SellChest plugin with performance in-mind."
+
+    commands {
+        register("sellchest")
+    }
 }
 
 java {
