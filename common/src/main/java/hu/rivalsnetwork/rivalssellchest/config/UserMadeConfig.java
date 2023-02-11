@@ -40,7 +40,7 @@ public class UserMadeConfig extends AbstractConfig {
         }
 
         for (File file : userMadeConfigs) {
-            if (!file.toString().contains(".yaml") && !file.toString().contains(".yml")) return;
+            if (!file.toString().contains(".yaml") && !file.toString().contains(".yml")) continue;
 
             try {
                 configs.add(YamlDocument.create(file));
