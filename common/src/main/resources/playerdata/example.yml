@@ -1,0 +1,12 @@
+name: "Karcsi"
+uuid: "example"
+boost: 0
+chests:
+  0:
+    money: 0.0
+    items-sold: 0
+    autosell: true
+    chunk-collector: true
+    bank: false
+    type: ""
+    location: world;0;0;0

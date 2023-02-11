@@ -2,7 +2,9 @@ package hu.rivalsnetwork.rivalssellchest.user;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChest;
+import hu.rivalsnetwork.rivalssellchest.util.serializer.LocationSerializer;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -67,15 +69,27 @@ public class SellChestUser {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "SellChestUser{" +
-                "uuid=" + uuid +
-                ", name='" + name + '\'' +
-                ", boost=" + boost +
-                ", chests=" + chests +
-                ", placedChests=" + placedChests +
-                ", file=" + file +
-                '}';
+    public void save() {
+        int i = 0;
+        for (PlacedChest chest : chests) {
+            set("money", i, chest.money());
+            set("items-sold", i, chest.itemsSold());
+            set("autosell", i, chest.autoSellEnabled());
+            set("chunk-collector", i, chest.chunkCollectEnabled());
+            set("bank", i, chest.bank());
+            set("type", i, chest.abstractChest().name());
+            set("location", i, LocationSerializer.serialize(chest.location()));
+            i++;
+        }
+
+        try {
+            file.save();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    private void set(String string, int i, Object obj) {
+        file.set("chests." + i + "." + string, obj);
     }
 }

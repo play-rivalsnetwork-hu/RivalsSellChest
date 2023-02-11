@@ -1,7 +1,5 @@
 package hu.rivalsnetwork.rivalssellchest.chests;
 
-import com.google.common.base.Objects;
-import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import org.bukkit.Location;
 
 import java.util.UUID;
@@ -14,14 +12,24 @@ public class PlacedChest {
     private boolean chunkCollectEnabled;
     private boolean bank;
     private AbstractChest abstractChest;
-    private SellChestUser owner;
+    private double money;
+    private int itemsSold;
 
-    public SellChestUser owner() {
-        return owner;
+    public double money() {
+        return money;
     }
 
-    public PlacedChest setOwner(SellChestUser owner) {
-        this.owner = owner;
+    public PlacedChest setMoney(double money) {
+        this.money = money;
+        return this;
+    }
+
+    public int itemsSold() {
+        return itemsSold;
+    }
+
+    public PlacedChest setItemsSold(int itemsSold) {
+        this.itemsSold = itemsSold;
         return this;
     }
 
@@ -86,31 +94,5 @@ public class PlacedChest {
     public PlacedChest setBank(boolean bank) {
         this.bank = bank;
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return "PlacedChest{" +
-                "ownerUUID=" + ownerUUID +
-                ", ownerName='" + ownerName + '\'' +
-                ", location=" + location +
-                ", autoSellEnabled=" + autoSellEnabled +
-                ", chunkCollectEnabled=" + chunkCollectEnabled +
-                ", bank=" + bank +
-                ", abstractChest=" + abstractChest +
-                ", owner=" + owner +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PlacedChest that)) return false;
-        return autoSellEnabled == that.autoSellEnabled && chunkCollectEnabled == that.chunkCollectEnabled && bank == that.bank && Objects.equal(ownerUUID, that.ownerUUID) && Objects.equal(ownerName, that.ownerName) && Objects.equal(location, that.location) && Objects.equal(abstractChest, that.abstractChest) && Objects.equal(owner, that.owner);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(ownerUUID, ownerName, location, autoSellEnabled, chunkCollectEnabled, bank, abstractChest, owner);
     }
 }
