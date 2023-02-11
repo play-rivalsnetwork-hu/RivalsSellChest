@@ -1,8 +1,19 @@
 package hu.rivalsnetwork.rivalssellchest.chests;
 
+import dev.dejvokep.boostedyaml.YamlDocument;
+
 import java.util.List;
 
 public class AbstractChest {
+    private String name;
+    private long sellInterval;
+    private double boost;
+    private boolean persistentStats;
+    private double hologramHeight;
+    private long hologramUpdateTicks;
+    private boolean hologramEnabled;
+    private List<?> hologramLines;
+    private YamlDocument file;
 
     public String name() {
         return name;
@@ -76,20 +87,12 @@ public class AbstractChest {
         return this;
     }
 
-    private String name;
+    public YamlDocument file() {
+        return file;
+    }
 
-    private long sellInterval;
-
-    private double boost;
-
-    private boolean persistentStats;
-
-    private double hologramHeight;
-
-    private long hologramUpdateTicks;
-
-    private boolean hologramEnabled;
-
-    private List<?> hologramLines;
-
+    public AbstractChest setFile(YamlDocument file) {
+        this.file = file;
+        return this;
+    }
 }

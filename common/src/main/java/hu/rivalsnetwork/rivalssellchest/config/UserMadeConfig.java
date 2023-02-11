@@ -60,9 +60,12 @@ public class UserMadeConfig extends AbstractConfig {
                     .setHologramLines(document.getList("hologram.lines"))
                     .setHologramUpdateTicks(document.getLong("hologram.update"))
                     .setHologramHeight(document.getDouble("hologram.height"))
-                    .setPersistentStats(document.getBoolean("persistent-stats"));
+                    .setPersistentStats(document.getBoolean("persistent-stats"))
+                    .setName(document.getString("name"))
+                    .setFile(document);
 
             chests.add(chest);
+            System.out.println(chest);
         }
     }
 
