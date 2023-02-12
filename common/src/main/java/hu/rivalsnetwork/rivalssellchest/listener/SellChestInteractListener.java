@@ -1,15 +1,17 @@
 package hu.rivalsnetwork.rivalssellchest.listener;
 
+import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
 import hu.rivalsnetwork.rivalssellchest.chests.ChestTicker;
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChest;
 import hu.rivalsnetwork.rivalssellchest.config.UserMadeConfig;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.user.Users;
-import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 public class SellChestInteractListener implements Listener {
@@ -44,5 +46,6 @@ public class SellChestInteractListener implements Listener {
 
         user.placedChests().add(placedChest);
         ChestTicker.chestList.add(placedChest);
+        event.getBlock().setMetadata(placedChest.abstractChest().key().getKey(), new FixedMetadataValue(RivalsSellChestPlugin.getInstance(), 0));
     }
 }

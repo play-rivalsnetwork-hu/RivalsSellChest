@@ -10,16 +10,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_19_R2.CraftChunk;
 import org.bukkit.craftbukkit.v1_19_R2.inventory.CraftItemStack;
-import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class NMSHandler implements hu.rivalsnetwork.rivalssellchest.nms.NMSHandler {
 
     @Override
-    public List<Entity> getEntities(@NotNull Location loc) {
+    public void getEntities(@NotNull Location loc) {
         long now = System.nanoTime();
         BlockPos blockPos = new BlockPos(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
         AABB pos = new AABB(blockPos.getX() >> 4 << 4, blockPos.getY() - 64, blockPos.getZ() >> 4 << 4, (blockPos.getX() >> 4 << 4) + 16, blockPos.getY() + 64, (blockPos.getZ() >> 4 << 4) + 16);
@@ -35,11 +32,10 @@ public class NMSHandler implements hu.rivalsnetwork.rivalssellchest.nms.NMSHandl
             ItemStack item = CraftItemStack.asCraftMirror(itemEntity.getItem());
             MessageUtil.debugMessage(item.getType().toString());
 
-            // Sync back to main thread as entites can't be removed off-main
+            // Sync back to main thread as entities can't be removed off-main
             Bukkit.getScheduler().runTask(RivalsSellChestPlugin.getInstance(), itemEntity::discard);
         });
 
         MessageUtil.debugMessage("Took: " + (System.nanoTime() - now));
-        return null;
     }
 }

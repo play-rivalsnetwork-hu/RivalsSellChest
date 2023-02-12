@@ -46,11 +46,7 @@ public class UserMadeConfig extends AbstractConfig {
         for (File file : userMadeConfigs) {
             if (!file.toString().contains(".yaml") && !file.toString().contains(".yml")) continue;
 
-            try {
-                configs.add(YamlDocument.create(file));
-            } catch (IOException exception) {
-                throw new RuntimeException(exception);
-            }
+            configs.add(ConfigLoader.create(file));
         }
         loadChests();
     }
