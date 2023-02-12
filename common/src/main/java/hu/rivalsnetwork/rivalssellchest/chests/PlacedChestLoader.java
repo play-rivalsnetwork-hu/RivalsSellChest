@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class PlacedChestLoader {
@@ -27,6 +28,8 @@ public class PlacedChestLoader {
         for (Object chest : user.file().getSection("chests").getKeys()) {
             YamlDocument config = user.file();
             PlacedChest placedChest = new PlacedChest()
+                    .setOwnerName(config.getString("name"))
+                    .setOwnerUUID(UUID.fromString(config.getString("uuid")))
                     .setBank(config.getBoolean("chests." + chest + ".bank"))
                     .setAbstractChest(UserMadeConfig.getChests().get(config.getString("chests." + chest + ".type")))
                     .setAutoSellEnabled(config.getBoolean("chests." + chest + ".autosell"))
@@ -45,6 +48,8 @@ public class PlacedChestLoader {
 
         for (Object chest : config.getSection("chests").getKeys()) {
             PlacedChest placedChest = new PlacedChest()
+                    .setOwnerName(config.getString("name"))
+                    .setOwnerUUID(UUID.fromString(config.getString("uuid")))
                     .setBank(config.getBoolean("chests." + chest + ".bank"))
                     .setAbstractChest(UserMadeConfig.getChests().get(config.getString("chests." + chest + ".type")))
                     .setAutoSellEnabled(config.getBoolean("chests." + chest + ".autosell"))
