@@ -1,8 +1,11 @@
 package hu.rivalsnetwork.rivalssellchest.nms;
 
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 public interface NMSHandler {
 
-    void getEntities(Location loc);
+    List<ItemStack> getEntities(Location loc);
 }

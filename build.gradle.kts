@@ -69,6 +69,7 @@ bukkit {
     load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
     authors = listOf("Karcsi", "BenceX100")
     description = "SellChest plugin with performance in-mind."
+    softDepend = listOf("ShopGUIPlus")
 
     commands {
         register("sellchest")
