@@ -1,6 +1,12 @@
 package hu.rivalsnetwork.rivalssellchest.chests;
 
+import dev.dejvokep.boostedyaml.YamlDocument;
+import hu.rivalsnetwork.rivalssellchest.config.serializer.LocationSerializer;
+import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
+import hu.rivalsnetwork.rivalssellchest.user.Users;
+import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -94,5 +100,24 @@ public class PlacedChest {
     public PlacedChest setBank(boolean bank) {
         this.bank = bank;
         return this;
+    }
+
+    public void serialize(int number) {
+        SellChestUser user = Users.getUser(ownerUUID);
+        if (user == null) return;
+        YamlDocument file = user.file();
+
+        set(file,"money", number, money);
+        set(file, "items-sold", number, itemsSold);
+        set(file, "autosell", number, autoSellEnabled);
+        set(file, "chunk-collector", number, chunkCollectEnabled);
+        set(file, "bank", number, bank);
+        set(file, "type", number, abstractChest.name());
+        set(file, "location", number, LocationSerializer.serialize(location));
+    }
+
+    private void set(@NotNull YamlDocument file, @NotNull String string, int i, @NotNull Object obj) {
+        MessageUtil.debugMessage("Setting chests." + i + "." + string + " to: " + obj);
+        file.set("chests." + i + "." + string, obj);
     }
 }

@@ -13,6 +13,7 @@ public class PlacedChestLoader {
 
     public static void load(@NotNull SellChestUser user) {
         List<PlacedChest> placedChests = new ArrayList<>();
+        if (user.file().getSection("chests") == null) return;
         for (Object chest : user.file().getSection("chests").getKeys()) {
             YamlDocument config = user.file();
             PlacedChest placedChest = new PlacedChest()

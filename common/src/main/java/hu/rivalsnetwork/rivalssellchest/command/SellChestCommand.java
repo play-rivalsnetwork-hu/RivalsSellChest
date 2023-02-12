@@ -13,7 +13,7 @@ public class SellChestCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        for (AbstractChest chest : UserMadeConfig.getChests()) {
+        for (AbstractChest chest : UserMadeConfig.getChests().values()) {
             sender.sendMessage(chest.name());
         }
 
@@ -22,7 +22,7 @@ public class SellChestCommand implements CommandExecutor {
 //
 //        sender.sendMessage(entities.size() + " ItemEntity found");
 
-        ChestTicker.chunkChestMap.put(((Player) sender).getChunk(), UserMadeConfig.getChests().get(0));
+//        ChestTicker.chunkChestMap.put(((Player) sender).getChunk(), UserMadeConfig.getChests().get(0));
         return true;
     }
 }

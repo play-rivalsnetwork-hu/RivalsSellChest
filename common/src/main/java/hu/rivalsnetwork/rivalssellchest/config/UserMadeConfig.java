@@ -1,7 +1,6 @@
 package hu.rivalsnetwork.rivalssellchest.config;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.HashBiMap;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
 import hu.rivalsnetwork.rivalssellchest.chests.AbstractChest;
@@ -13,12 +12,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
 public class UserMadeConfig extends AbstractConfig {
     private final List<YamlDocument> configs = new ArrayList<>();
-    private static final HashBiMap<String, AbstractChest> chests = HashBiMap.create();
+    private static final HashMap<String, AbstractChest> chests = new HashMap<>();
     private final InputStream defaults = RivalsSellChestPlugin.getInstance().getResource("chests/default.yml");
 
     @Override
@@ -71,7 +71,7 @@ public class UserMadeConfig extends AbstractConfig {
         }
     }
 
-    public static HashBiMap<String, AbstractChest> getChests() {
+    public static HashMap<String, AbstractChest> getChests() {
         return chests;
     }
 }

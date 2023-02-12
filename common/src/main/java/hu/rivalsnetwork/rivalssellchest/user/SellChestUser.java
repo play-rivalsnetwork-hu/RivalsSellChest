@@ -3,7 +3,9 @@ package hu.rivalsnetwork.rivalssellchest.user;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChest;
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChestLoader;
-import hu.rivalsnetwork.rivalssellchest.config.serializer.LocationSerializer;
+import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +20,7 @@ public class SellChestUser {
     private int chestAmount;
     private YamlDocument file;
     private int loop;
+    private Player player;
 
     public SellChestUser(UUID uuid) {
         this.uuid = uuid;
@@ -73,17 +76,13 @@ public class SellChestUser {
     }
 
     public void save() {
-        for (PlacedChest chest : placedChests) {
-            set("money", loop, chest.money());
-            set("items-sold", loop, chest.itemsSold());
-            set("autosell", loop, chest.autoSellEnabled());
-            set("chunk-collector", loop, chest.chunkCollectEnabled());
-            set("bank", loop, chest.bank());
-            set("type", loop, chest.abstractChest().name());
-            set("location", loop, LocationSerializer.serialize(chest.location()));
-            loop++;
+        if (placedChests != null) {
+            for (PlacedChest chest : placedChests) {
+                chest.serialize(loop);
+                loop++;
+            }
+            loop = 0;
         }
-        loop = 0;
 
         try {
             file.save();
@@ -92,22 +91,39 @@ public class SellChestUser {
         }
     }
 
-    public void load() {
-        UserFileHandler.createFile(this);
-        PlacedChestLoader.load(this);
-        setBoost(file.getDouble("boost"));
-        setName(file.getString("name"));
-        setChestAmount(file.getSection("chests").getKeys().size());
+    private void getNameByUUID() {
+        this.player = Bukkit.getPlayer(uuid);
+    }
 
+    public void load() {
+        MessageUtil.debugMessage("Loading SellChestUser player");
+        UserFileHandler.createFile(this);
+
+        MessageUtil.debugMessage("Loading placed chests");
+        PlacedChestLoader.load(this);
+
+        MessageUtil.debugMessage("Getting name by UUID");
+        getNameByUUID();
+
+        MessageUtil.debugMessage("Writing to file");
+
+        setBoost(file.getDouble("boost", 1.0));
+        setName(file.getString("name", player.getName()));
+        setChestAmount(file.getSection("chests") == null ? 0 : file.getSection("chests").getKeys().size());
+
+        MessageUtil.debugMessage("Adding user");
         Users.addUser(this);
     }
 
     public void unload() {
+        MessageUtil.debugMessage("Saving");
         save();
+        MessageUtil.debugMessage("Removing user");
         Users.removeUser(this);
     }
 
     private void set(String string, int i, Object obj) {
+        MessageUtil.debugMessage("Setting chests." + i + "." + string + " to: " + obj);
         file.set("chests." + i + "." + string, obj);
     }
 }
