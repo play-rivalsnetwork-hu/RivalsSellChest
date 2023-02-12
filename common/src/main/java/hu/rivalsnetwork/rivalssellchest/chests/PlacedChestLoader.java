@@ -7,17 +7,14 @@ import hu.rivalsnetwork.rivalssellchest.config.UserMadeConfig;
 import hu.rivalsnetwork.rivalssellchest.config.serializer.LocationSerializer;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
-import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
 public class PlacedChestLoader {
-    private static final HashMap<Location, PlacedChest> locationPlacedChestHashMap = new HashMap<>();
 
     public static void load(@NotNull SellChestUser user) {
         List<PlacedChest> placedChests = new ArrayList<>();
@@ -44,6 +41,8 @@ public class PlacedChestLoader {
     }
 
     public static void load(@NotNull YamlDocument config) {
+        if (config.getSection("chests") == null) return;
+
         for (Object chest : config.getSection("chests").getKeys()) {
             PlacedChest placedChest = new PlacedChest()
                     .setBank(config.getBoolean("chests." + chest + ".bank"))
@@ -54,12 +53,12 @@ public class PlacedChestLoader {
                     .setMoney(config.getDouble("chests." + chest + ".money"))
                     .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"));
 
-            locationPlacedChestHashMap.put(placedChest.location(), placedChest);
+            ChestTicker.getChestsToTick().put(placedChest.location(), placedChest);
         }
     }
 
     public static void loadAll() {
-        final File file = new File(RivalsSellChestPlugin.getInstance().getDataFolder(), "/playerdata/");
+        final File file = new File(RivalsSellChestPlugin.getInstance().getDataFolder(), "/playerdata");
         File[] files = file.listFiles();
 
         if (files == null) {

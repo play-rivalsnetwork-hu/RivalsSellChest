@@ -1,17 +1,19 @@
 package hu.rivalsnetwork.rivalssellchest.listener;
 
+import com.google.common.base.Preconditions;
 import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
 import hu.rivalsnetwork.rivalssellchest.chests.ChestTicker;
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChest;
+import hu.rivalsnetwork.rivalssellchest.chests.PlacedChestLoader;
 import hu.rivalsnetwork.rivalssellchest.config.UserMadeConfig;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.user.Users;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 public class SellChestInteractListener implements Listener {
@@ -45,7 +47,30 @@ public class SellChestInteractListener implements Listener {
                 .setLocation(event.getBlock().getLocation());
 
         user.placedChests().add(placedChest);
-        ChestTicker.chestList.add(placedChest);
+        ChestTicker.getChestsToTick().put(event.getBlock().getLocation(), placedChest);
         event.getBlock().setMetadata(placedChest.abstractChest().key().getKey(), new FixedMetadataValue(RivalsSellChestPlugin.getInstance(), 0));
+    }
+
+    @EventHandler
+    public void onBlockBreakEvent(BlockBreakEvent event) {
+        boolean isSellChest = false;
+
+        for (String chests : UserMadeConfig.getChests().keySet()) {
+            if (event.getBlock().hasMetadata("sell_chest_" + chests)) {
+                isSellChest = true;
+                break;
+            }
+        }
+
+        if (!isSellChest) return;
+        SellChestUser user = Users.getUser(event.getPlayer());
+        Preconditions.checkNotNull(user, "The SellChestUser was null!");
+
+        event.setCancelled(true);
+        PlacedChest placedChest = ChestTicker.getChestsToTick().get(event.getBlock().getLocation());
+        ChestTicker.getChestsToTick().remove(event.getBlock().getLocation());
+        user.placedChests().remove(placedChest);
+
+        // Give item
     }
 }
