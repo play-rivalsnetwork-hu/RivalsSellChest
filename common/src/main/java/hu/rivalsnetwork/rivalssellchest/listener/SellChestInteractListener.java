@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
 import hu.rivalsnetwork.rivalssellchest.chests.ChestTicker;
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChest;
-import hu.rivalsnetwork.rivalssellchest.chests.PlacedChestLoader;
 import hu.rivalsnetwork.rivalssellchest.config.UserMadeConfig;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.user.Users;

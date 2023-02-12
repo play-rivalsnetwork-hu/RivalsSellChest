@@ -19,9 +19,13 @@ import java.util.Locale;
 import java.util.logging.Level;
 
 public class UserMadeConfig extends AbstractConfig {
-    private final List<YamlDocument> configs = new ArrayList<>();
     private static final HashMap<String, AbstractChest> chests = new HashMap<>();
+    private final List<YamlDocument> configs = new ArrayList<>();
     private final InputStream defaults = RivalsSellChestPlugin.getInstance().getResource("chests/default.yml");
+
+    public static HashMap<String, AbstractChest> getChests() {
+        return chests;
+    }
 
     @Override
     public void initialize() {
@@ -72,9 +76,5 @@ public class UserMadeConfig extends AbstractConfig {
             new ChestTicker().tick(chest);
             MessageUtil.debugMessage(chest.toString());
         }
-    }
-
-    public static HashMap<String, AbstractChest> getChests() {
-        return chests;
     }
 }

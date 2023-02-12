@@ -16,10 +16,6 @@ public class MessageUtil {
         messagesConfig = Messages.getConfig();
     }
 
-    public void sendMessage(@NotNull Player player, @NotNull String message) {
-        player.sendMessage(message);
-    }
-
     public static void debugMessage(@NotNull String message) {
         if (Config.getConfig().getBoolean("debug")) RivalsSellChestPlugin.getInstance().getLogger().info(message);
     }
@@ -30,5 +26,9 @@ public class MessageUtil {
 
     public static void sendOptionalMessage(@NotNull Player player, @NotNull String route) {
         messagesConfig.getOptionalString(route).ifPresent(player::sendMessage);
+    }
+
+    public void sendMessage(@NotNull Player player, @NotNull String message) {
+        player.sendMessage(message);
     }
 }

@@ -11,7 +11,8 @@ public class PricesProviderLoader {
     public static void enableProvider() {
         switch (Config.getConfig().getString("hooks.price").toLowerCase(Locale.ENGLISH)) {
             case "shopguiplus" -> {
-                if (Bukkit.getPluginManager().isPluginEnabled("ShopGUIPlus")) provider = new ShopGUIPlusPricesProvider();
+                if (Bukkit.getPluginManager().isPluginEnabled("ShopGUIPlus"))
+                    provider = new ShopGUIPlusPricesProvider();
                 else provider = new LocalPricesProvider();
             }
             case "local" -> provider = new LocalPricesProvider();

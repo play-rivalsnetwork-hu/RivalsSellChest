@@ -108,7 +108,7 @@ public class PlacedChest {
         YamlDocument file = user.file();
         MessageUtil.debugMessage(toString());
 
-        set(file,"money", number, money);
+        set(file, "money", number, money);
         set(file, "items-sold", number, itemsSold);
         set(file, "autosell", number, autoSellEnabled);
         set(file, "chunk-collector", number, chunkCollectEnabled);

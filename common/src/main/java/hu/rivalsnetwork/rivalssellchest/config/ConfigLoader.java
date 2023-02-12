@@ -12,10 +12,6 @@ import java.util.List;
 public class ConfigLoader {
     private static final List<AbstractConfig> configs = new ArrayList<>(Arrays.asList(new Config(), new Messages(), new UserMadeConfig(), new PricesConfig()));
 
-    public void loadConfigs() {
-        configs.forEach(AbstractConfig::initialize);
-    }
-
     @NotNull
     public static YamlDocument create(@NotNull File file) {
         try {
@@ -23,5 +19,9 @@ public class ConfigLoader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void loadConfigs() {
+        configs.forEach(AbstractConfig::initialize);
     }
 }
