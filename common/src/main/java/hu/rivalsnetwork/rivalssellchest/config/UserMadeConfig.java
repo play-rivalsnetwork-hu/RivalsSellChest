@@ -6,6 +6,7 @@ import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
 import hu.rivalsnetwork.rivalssellchest.chests.AbstractChest;
 import hu.rivalsnetwork.rivalssellchest.chests.ChestTicker;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
+import org.bukkit.NamespacedKey;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 
 public class UserMadeConfig extends AbstractConfig {
@@ -55,6 +57,9 @@ public class UserMadeConfig extends AbstractConfig {
 
     private void loadChests() {
         for (YamlDocument document : configs) {
+            NamespacedKey key = new NamespacedKey(RivalsSellChestPlugin.getInstance(), "sell_chest_" + document.getString("name").toLowerCase(Locale.ENGLISH));
+            MessageUtil.debugMessage(document.getString("name"));
+
             AbstractChest chest = new AbstractChest()
                     .setBoost(document.getDouble("boost"))
                     .setSellInterval(document.getLong("sell-interval"))
@@ -64,10 +69,12 @@ public class UserMadeConfig extends AbstractConfig {
                     .setHologramHeight(document.getDouble("hologram.height"))
                     .setPersistentStats(document.getBoolean("persistent-stats"))
                     .setName(document.getString("name"))
+                    .setKey(key)
                     .setFile(document);
 
-            chests.put(document.getString("name"), chest);
+            chests.put(document.getString("name").toLowerCase(Locale.ENGLISH), chest);
             new ChestTicker().tick(chest);
+            MessageUtil.debugMessage(chest.toString());
         }
     }
 

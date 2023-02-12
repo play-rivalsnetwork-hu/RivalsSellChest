@@ -1,6 +1,7 @@
 package hu.rivalsnetwork.rivalssellchest.chests;
 
 import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
+import hu.rivalsnetwork.rivalssellchest.nms.NMSSetup;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +18,7 @@ public class ChestTicker implements Listener {
                 placedChest.location().getWorld().getChunkAtAsync(placedChest.location()).thenAcceptAsync(chunk -> {
                     if (!chunk.isLoaded()) return;
 
-                    System.out.println("Debug");
+                    NMSSetup.getHandler().getEntities(placedChest.location());
                 });
             }
         }, 0L, chest.sellInterval());

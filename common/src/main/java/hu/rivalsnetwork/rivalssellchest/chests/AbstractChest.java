@@ -1,6 +1,7 @@
 package hu.rivalsnetwork.rivalssellchest.chests;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
+import org.bukkit.NamespacedKey;
 
 import java.util.List;
 
@@ -14,6 +15,16 @@ public class AbstractChest {
     private boolean hologramEnabled;
     private List<?> hologramLines;
     private YamlDocument file;
+    private NamespacedKey key;
+
+    public NamespacedKey key() {
+        return key;
+    }
+
+    public AbstractChest setKey(NamespacedKey key) {
+        this.key = key;
+        return this;
+    }
 
     public String name() {
         return name;
@@ -94,5 +105,21 @@ public class AbstractChest {
     public AbstractChest setFile(YamlDocument file) {
         this.file = file;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "AbstractChest{" +
+                "name='" + name + '\'' +
+                ", sellInterval=" + sellInterval +
+                ", boost=" + boost +
+                ", persistentStats=" + persistentStats +
+                ", hologramHeight=" + hologramHeight +
+                ", hologramUpdateTicks=" + hologramUpdateTicks +
+                ", hologramEnabled=" + hologramEnabled +
+                ", hologramLines=" + hologramLines +
+                ", file=" + file +
+                ", key=" + key +
+                '}';
     }
 }

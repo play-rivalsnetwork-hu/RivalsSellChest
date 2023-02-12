@@ -106,6 +106,7 @@ public class PlacedChest {
         SellChestUser user = Users.getUser(ownerUUID);
         if (user == null) return;
         YamlDocument file = user.file();
+        MessageUtil.debugMessage(toString());
 
         set(file,"money", number, money);
         set(file, "items-sold", number, itemsSold);
@@ -117,7 +118,25 @@ public class PlacedChest {
     }
 
     private void set(@NotNull YamlDocument file, @NotNull String string, int i, @NotNull Object obj) {
+        SellChestUser user = Users.getUser(ownerUUID);
+        if (user == null) return;
         MessageUtil.debugMessage("Setting chests." + i + "." + string + " to: " + obj);
         file.set("chests." + i + "." + string, obj);
+        user.setFile(file);
+    }
+
+    @Override
+    public String toString() {
+        return "PlacedChest{" +
+                "ownerUUID=" + ownerUUID +
+                ", ownerName='" + ownerName + '\'' +
+                ", location=" + location +
+                ", autoSellEnabled=" + autoSellEnabled +
+                ", chunkCollectEnabled=" + chunkCollectEnabled +
+                ", bank=" + bank +
+                ", abstractChest=" + abstractChest +
+                ", money=" + money +
+                ", itemsSold=" + itemsSold +
+                '}';
     }
 }

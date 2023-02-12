@@ -84,6 +84,10 @@ public class SellChestUser {
             loop = 0;
         }
 
+        file.set("name", name);
+        file.set("uuid", uuid);
+        file.set("boost", boost);
+
         try {
             file.save();
         } catch (IOException exception) {

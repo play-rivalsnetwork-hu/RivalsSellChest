@@ -1,4 +1,4 @@
-name: "Default"
+name: "default"
 
 # Amount of ticks between attempting sales. 1 second = 20 ticks
 sell-interval: 200
@@ -6,6 +6,16 @@ sell-interval: 200
 boost: 1
 
 persistent-stats: true
+
+item:
+  name: "Sell Chest! Tier: Default"
+  lore:
+    - ""
+    - "This is a default sellchest."
+  material: player_head;eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWRjMzZjOWNiNTBhNTI3YWE1NTYwN2EwZGY3MTg1YWQyMGFhYmFhOTAzZThkOWFiZmM3ODI2MDcwNTU0MGRlZiJ9fX0=
+
+block:
+  title: "%owner%''s sell chest"
 
 hologram:
   enabled: true
