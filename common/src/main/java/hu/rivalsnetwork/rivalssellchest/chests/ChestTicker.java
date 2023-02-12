@@ -19,7 +19,7 @@ public class ChestTicker implements Listener {
     public void tick(@NotNull AbstractChest chest) {
         Bukkit.getScheduler().runTaskTimer(RivalsSellChestPlugin.getInstance(), () -> {
             for (PlacedChest placedChest : chestsToTick.values()) {
-                if (!placedChest.location().getChunk().isLoaded()) return;
+                if (!placedChest.location().isChunkLoaded()) return;
 
                 placedChest.location().getWorld().getChunkAtAsync(placedChest.location()).thenAcceptAsync(chunk -> {
                     MessageUtil.debugMessage("Calling getEntities method");

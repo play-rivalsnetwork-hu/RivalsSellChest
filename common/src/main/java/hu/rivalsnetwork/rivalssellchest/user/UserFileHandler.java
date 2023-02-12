@@ -10,6 +10,6 @@ public class UserFileHandler {
 
     public static void createFile(@NotNull SellChestUser user) {
         final File file = new File(RivalsSellChestPlugin.getInstance().getDataFolder(), "/playerdata/" + user.uuid() + ".yml");
-        ConfigLoader.create(file);
+        user.setFile(ConfigLoader.create(file));
     }
 }

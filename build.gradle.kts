@@ -29,6 +29,7 @@ allprojects {
     dependencies {
         compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
         implementation("dev.dejvokep:boosted-yaml:1.3.1")
+        compileOnly("com.github.brcdev-minecraft:shopgui-api:3.0.0")
     }
 }
 

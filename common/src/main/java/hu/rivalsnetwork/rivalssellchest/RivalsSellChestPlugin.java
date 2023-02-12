@@ -6,6 +6,7 @@ import hu.rivalsnetwork.rivalssellchest.command.SellChestCommand;
 import hu.rivalsnetwork.rivalssellchest.config.ConfigLoader;
 import hu.rivalsnetwork.rivalssellchest.listener.SellChestInteractListener;
 import hu.rivalsnetwork.rivalssellchest.listener.UserConnectionListener;
+import hu.rivalsnetwork.rivalssellchest.provider.PricesProviderLoader;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
 import hu.rivalsnetwork.rivalssellchest.version.ServerVersionChecker;
 import org.bukkit.Bukkit;
@@ -29,6 +30,7 @@ public final class RivalsSellChestPlugin extends JavaPlugin {
         new ConfigLoader().loadConfigs();
         PlacedChestLoader.loadAll();
         MessageUtil.update();
+        PricesProviderLoader.enableProvider();
 
         Bukkit.getPluginManager().registerEvents(new UserConnectionListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChestTicker(), this);

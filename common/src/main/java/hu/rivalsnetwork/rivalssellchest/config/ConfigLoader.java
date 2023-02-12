@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ConfigLoader {
-    private static final List<AbstractConfig> configs = new ArrayList<>(Arrays.asList(new Config(), new Messages(), new UserMadeConfig()));
+    private static final List<AbstractConfig> configs = new ArrayList<>(Arrays.asList(new Config(), new Messages(), new UserMadeConfig(), new PricesConfig()));
 
     public void loadConfigs() {
         configs.forEach(AbstractConfig::initialize);

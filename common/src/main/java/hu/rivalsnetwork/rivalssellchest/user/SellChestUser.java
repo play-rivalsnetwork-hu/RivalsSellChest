@@ -126,8 +126,7 @@ public class SellChestUser {
         Users.removeUser(this);
     }
 
-    private void set(String string, int i, Object obj) {
-        MessageUtil.debugMessage("Setting chests." + i + "." + string + " to: " + obj);
-        file.set("chests." + i + "." + string, obj);
+    public Player player() {
+        return player;
     }
 }
