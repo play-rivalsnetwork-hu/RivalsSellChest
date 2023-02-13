@@ -1,4 +1,4 @@
-package hu.rivalsnetwork.rivalssellchest.provider;
+package hu.rivalsnetwork.rivalssellchest.provider.prices;
 
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChest;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;

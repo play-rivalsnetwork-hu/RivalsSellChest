@@ -2,12 +2,16 @@ package hu.rivalsnetwork.rivalssellchest.chests;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import hu.rivalsnetwork.rivalssellchest.config.serializer.LocationSerializer;
+import hu.rivalsnetwork.rivalssellchest.nms.NMSSetup;
+import hu.rivalsnetwork.rivalssellchest.provider.prices.PricesProviderLoader;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.user.Users;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.UUID;
 
 public class PlacedChest {
@@ -100,6 +104,16 @@ public class PlacedChest {
     public PlacedChest setBank(boolean bank) {
         this.bank = bank;
         return this;
+    }
+
+    public void tick() {
+        List<ItemStack> items = NMSSetup.getHandler().getEntities(location);
+        double amountToGive = 0;
+        for (ItemStack item : items) {
+            amountToGive = amountToGive + PricesProviderLoader.getProvider().getSellPrice(Users.getUser(this), this, item, item.getAmount());
+        }
+
+        MessageUtil.debugMessage("Giving " + amountToGive + " coins to " + ownerName);
     }
 
     public void serialize(int number) {

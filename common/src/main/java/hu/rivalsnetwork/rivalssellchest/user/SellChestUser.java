@@ -129,4 +129,18 @@ public class SellChestUser {
     public Player player() {
         return player;
     }
+
+    @Override
+    public String toString() {
+        return "SellChestUser{" +
+                "uuid=" + uuid +
+                ", name='" + name + '\'' +
+                ", boost=" + boost +
+                ", placedChests=" + placedChests +
+                ", chestAmount=" + chestAmount +
+                ", file=" + file +
+                ", loop=" + loop +
+                ", player=" + player +
+                '}';
+    }
 }

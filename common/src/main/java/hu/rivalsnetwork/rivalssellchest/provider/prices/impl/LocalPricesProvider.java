@@ -1,7 +1,8 @@
-package hu.rivalsnetwork.rivalssellchest.provider;
+package hu.rivalsnetwork.rivalssellchest.provider.prices.impl;
 
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChest;
 import hu.rivalsnetwork.rivalssellchest.config.PricesConfig;
+import hu.rivalsnetwork.rivalssellchest.provider.prices.PricesProvider;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import org.bukkit.inventory.ItemStack;
 
