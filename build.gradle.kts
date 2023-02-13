@@ -67,6 +67,10 @@ bukkit {
     authors = listOf("Karcsi", "BenceX100")
     description = "SellChest plugin with performance in-mind."
     softDepend = listOf("ShopGUIPlus", "Vault")
+
+    commands {
+        register("sellchest")
+    }
 }
 
 java {

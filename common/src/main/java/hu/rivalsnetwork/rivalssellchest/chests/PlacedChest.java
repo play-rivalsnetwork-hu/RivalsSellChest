@@ -3,11 +3,15 @@ package hu.rivalsnetwork.rivalssellchest.chests;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import hu.rivalsnetwork.rivalssellchest.config.serializer.LocationSerializer;
 import hu.rivalsnetwork.rivalssellchest.nms.NMSSetup;
+import hu.rivalsnetwork.rivalssellchest.provider.economy.EconomyProviderLoader;
 import hu.rivalsnetwork.rivalssellchest.provider.prices.PricesProviderLoader;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.user.Users;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -113,6 +117,10 @@ public class PlacedChest {
             amountToGive = amountToGive + PricesProviderLoader.getProvider().getSellPrice(Users.getUser(this), this, item, item.getAmount());
         }
 
+        Player player = Bukkit.getPlayer(ownerUUID);
+        EconomyProviderLoader.getProvider().giveBalance(player, amountToGive);
+        if (player == null) return;
+        player.sendActionBar(MiniMessage.miniMessage().deserialize("<white>You gained <green>%money% <white>in the last 10 seconds!".replace("%money%", String.valueOf(amountToGive))));
         MessageUtil.debugMessage("Giving " + amountToGive + " coins to " + ownerName);
     }
 

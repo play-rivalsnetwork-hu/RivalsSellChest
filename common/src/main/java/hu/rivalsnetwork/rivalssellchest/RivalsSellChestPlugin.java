@@ -2,6 +2,7 @@ package hu.rivalsnetwork.rivalssellchest;
 
 import hu.rivalsnetwork.rivalssellchest.chests.ChestTicker;
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChestLoader;
+import hu.rivalsnetwork.rivalssellchest.command.SellChestCommand;
 import hu.rivalsnetwork.rivalssellchest.config.ConfigLoader;
 import hu.rivalsnetwork.rivalssellchest.listener.SellChestInteractListener;
 import hu.rivalsnetwork.rivalssellchest.listener.UserConnectionListener;
@@ -34,6 +35,7 @@ public final class RivalsSellChestPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new UserConnectionListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChestTicker(), this);
         Bukkit.getPluginManager().registerEvents(new SellChestInteractListener(), this);
+        Bukkit.getPluginCommand("sellchest").setExecutor(new SellChestCommand());
     }
 
     @Override
