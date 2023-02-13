@@ -1,4 +1,3 @@
-import net.minecrell.pluginyml.bukkit.BukkitPlugin
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 
 plugins {
@@ -24,10 +23,14 @@ allprojects {
 
         // Jitpack
         maven("https://jitpack.io")
+
+        // NBT-API
+        maven("https://repo.codemc.org/repository/maven-public/")
     }
 
     dependencies {
         compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
+        compileOnly("dev.jorel:commandapi-core:8.7.0")
     }
 }
 
@@ -51,7 +54,12 @@ tasks {
         dependsOn(":v1_19_R2:reobfJar")
         mergeServiceFiles()
 
+        dependencies {
+            include(dependency("dev.jorel:commandapi-shade:8.7.0"))
+        }
+
         relocate("dev.dejvokep.boostedyaml", "hu.rivalsnetwork.rivalssellchest.boostedyaml")
+        relocate("dev.jorel.commandapi", "hu.rivalsnetwork.rivalssellchest.commandapi")
     }
 
     build {
@@ -67,7 +75,7 @@ bukkit {
     load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
     authors = listOf("Karcsi", "BenceX100")
     description = "SellChest plugin with performance in-mind."
-    softDepend = listOf("ShopGUIPlus")
+    softDepend = listOf("ShopGUIPlus", "Vault")
 
     commands {
         register("sellchest")

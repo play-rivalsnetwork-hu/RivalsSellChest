@@ -1,7 +1,7 @@
 # Hooks
 hooks:
   hologram: "DecentHolograms" # Possible values: DecentHolograms, none
-  economy: "Vault" # Possible values: Vault, none
+  economy: "Vault" # Possible values: Vault, none (I have no idea how you would give money if it is none though)
   bank: "SuperiorSkyBlock" # Possible values: SuperiorSkyBlock, none
   stacker: "WildStacker" # Possible values: WildStacker, RoseStacker, none
   price: "ShopGuiPlus" # Possible values: ShopGuiPlus, EssentialsX, Local
