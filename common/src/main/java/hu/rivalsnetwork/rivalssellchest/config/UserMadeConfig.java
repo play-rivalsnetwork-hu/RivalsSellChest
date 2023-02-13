@@ -6,7 +6,12 @@ import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
 import hu.rivalsnetwork.rivalssellchest.chests.AbstractChest;
 import hu.rivalsnetwork.rivalssellchest.chests.ChestTicker;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +25,7 @@ import java.util.logging.Level;
 
 public class UserMadeConfig extends AbstractConfig {
     private static final HashMap<String, AbstractChest> chests = new HashMap<>();
+    private static final List<String> chestList = new ArrayList<>();
     private final List<YamlDocument> configs = new ArrayList<>();
     private final InputStream defaults = RivalsSellChestPlugin.getInstance().getResource("chests/default.yml");
 
@@ -55,6 +61,10 @@ public class UserMadeConfig extends AbstractConfig {
         loadChests();
     }
 
+    public static List<String> getChestList() {
+        return chestList;
+    }
+
     private void loadChests() {
         for (YamlDocument document : configs) {
             NamespacedKey key = new NamespacedKey(RivalsSellChestPlugin.getInstance(), "sell_chest_" + document.getString("name").toLowerCase(Locale.ENGLISH));
@@ -72,7 +82,10 @@ public class UserMadeConfig extends AbstractConfig {
                     .setKey(key)
                     .setFile(document);
 
+            chest.createItemStack();
+
             chests.put(document.getString("name").toLowerCase(Locale.ENGLISH), chest);
+            chestList.add(chest.name());
             new ChestTicker().tick(chest);
             MessageUtil.debugMessage(chest.toString());
         }

@@ -1,8 +1,15 @@
 package hu.rivalsnetwork.rivalssellchest.chests;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AbstractChest {
@@ -16,6 +23,16 @@ public class AbstractChest {
     private List<?> hologramLines;
     private YamlDocument file;
     private NamespacedKey key;
+    private ItemStack itemStack;
+
+    public ItemStack itemStack() {
+        return itemStack;
+    }
+
+    public AbstractChest setItemStack(ItemStack itemStack) {
+        this.itemStack = itemStack;
+        return this;
+    }
 
     public NamespacedKey key() {
         return key;
@@ -105,6 +122,20 @@ public class AbstractChest {
     public AbstractChest setFile(YamlDocument file) {
         this.file = file;
         return this;
+    }
+
+    public void createItemStack() {
+        List<Component> lore = new ArrayList<>();
+        file.getStringList("item.lore").forEach(line -> lore.add(MiniMessage.miniMessage().deserialize(line)));
+
+        ItemStack item = new ItemStack(Material.CHEST);
+        ItemMeta meta = item.getItemMeta();
+        meta.displayName(MiniMessage.miniMessage().deserialize(file.getString("item.name")));
+        meta.lore(lore);
+        meta.getPersistentDataContainer().set(key, PersistentDataType.BYTE, (byte) 0);
+        item.setItemMeta(meta);
+
+        itemStack = item;
     }
 
     @Override
