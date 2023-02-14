@@ -5,18 +5,21 @@ import hu.rivalsnetwork.rivalssellchest.config.serializer.LocationSerializer;
 import hu.rivalsnetwork.rivalssellchest.nms.NMSSetup;
 import hu.rivalsnetwork.rivalssellchest.provider.economy.EconomyProviderLoader;
 import hu.rivalsnetwork.rivalssellchest.provider.prices.PricesProviderLoader;
+import hu.rivalsnetwork.rivalssellchest.provider.stacker.StackerProviderLoader;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.user.Users;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PlacedChest {
     private UUID ownerUUID;
@@ -111,16 +114,18 @@ public class PlacedChest {
     }
 
     public void tick() {
-        List<ItemStack> items = NMSSetup.getHandler().getEntities(location);
-        double amountToGive = 0;
-        for (ItemStack item : items) {
-            amountToGive = amountToGive + PricesProviderLoader.getProvider().getSellPrice(Users.getUser(this), this, item, item.getAmount());
-        }
+        HashMap<ItemStack, Item> items = NMSSetup.getHandler().getEntities(location);
+        AtomicReference<Double> amountToGive = new AtomicReference<>((double) 0);
+        items.forEach((itemStack, item) -> amountToGive.set(amountToGive.get() + PricesProviderLoader.getProvider().getSellPrice(Users.getUser(this), this, itemStack, StackerProviderLoader.provider().getAmount(item))));
+
+        money = money + amountToGive.get();
+        itemsSold = itemsSold + items.size();
 
         Player player = Bukkit.getPlayer(ownerUUID);
-        EconomyProviderLoader.getProvider().giveBalance(player, amountToGive);
+        EconomyProviderLoader.getProvider().giveBalance(player, amountToGive.get());
         if (player == null) return;
-        player.sendActionBar(MiniMessage.miniMessage().deserialize("<white>You gained <green>%money% <white>in the last 10 seconds!".replace("%money%", String.valueOf(amountToGive))));
+        if (amountToGive.get() <= 0.0D) return;
+        player.sendActionBar(MiniMessage.miniMessage().deserialize("<white>You gained <green>%money% <white>in the last 10 seconds!".replace("%money%", String.valueOf(amountToGive.get()))));
         MessageUtil.debugMessage("Giving " + amountToGive + " coins to " + ownerName);
     }
 

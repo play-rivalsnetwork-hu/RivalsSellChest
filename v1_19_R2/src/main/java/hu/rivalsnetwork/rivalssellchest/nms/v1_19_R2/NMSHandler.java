@@ -9,17 +9,19 @@ import net.minecraft.world.phys.AABB;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_19_R2.CraftChunk;
+import org.bukkit.craftbukkit.v1_19_R2.CraftServer;
+import org.bukkit.craftbukkit.v1_19_R2.entity.CraftItem;
 import org.bukkit.craftbukkit.v1_19_R2.inventory.CraftItemStack;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class NMSHandler implements hu.rivalsnetwork.rivalssellchest.nms.NMSHandler {
 
     @Override
-    public List<ItemStack> getEntities(@NotNull Location loc) {
+    public HashMap<ItemStack, Item> getEntities(@NotNull Location loc) {
         long now = System.nanoTime();
         BlockPos blockPos = new BlockPos(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
         AABB pos = new AABB(blockPos.getX() >> 4 << 4, blockPos.getY() - 64, blockPos.getZ() >> 4 << 4, (blockPos.getX() >> 4 << 4) + 16, blockPos.getY() + 64, (blockPos.getZ() >> 4 << 4) + 16);
@@ -30,10 +32,10 @@ public class NMSHandler implements hu.rivalsnetwork.rivalssellchest.nms.NMSHandl
 
         MessageUtil.debugMessage(level.getEntitiesOfClass(ItemEntity.class, pos) + "");
 
-        List<ItemStack> items = new ArrayList<>();
+        HashMap<ItemStack, Item> items = new HashMap<>();
         level.getEntitiesOfClass(ItemEntity.class, pos).forEach(itemEntity -> {
             MessageUtil.debugMessage(itemEntity.getType().toString());
-            items.add(CraftItemStack.asCraftMirror(itemEntity.getItem()));
+            items.put(CraftItemStack.asCraftMirror(itemEntity.getItem()), new CraftItem(((CraftServer) Bukkit.getServer()).getServer().server, itemEntity));
 
             // Sync back to main thread as entities can't be removed off-main
             Bukkit.getScheduler().runTask(RivalsSellChestPlugin.getInstance(), itemEntity::discard);

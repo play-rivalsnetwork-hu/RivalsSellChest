@@ -17,7 +17,6 @@ public class PricesProviderLoader extends AbstractProviderLoader {
             case "shopguiplus" -> {
                 if (Bukkit.getPluginManager().isPluginEnabled("ShopGUIPlus"))
                     provider = new ShopGUIPlusPricesProvider();
-                else provider = new LocalPricesProvider();
             }
             case "local" -> provider = new LocalPricesProvider();
             default -> new LocalPricesProvider();

@@ -16,7 +16,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,22 +52,13 @@ public class SellChestInteractListener implements Listener {
                 .setLocation(event.getBlock().getLocation());
 
         user.placedChests().add(placedChest);
-        ChestTicker.getChestsToTick().put(event.getBlock().getLocation(), placedChest);
-        event.getBlock().setMetadata(placedChest.abstractChest().key().getKey(), new FixedMetadataValue(RivalsSellChestPlugin.getInstance(), 0));
+        ChestTicker.getChestsToTick().put(event.getBlockPlaced().getLocation(), placedChest);
     }
 
     @EventHandler
     public void onBlockBreakEvent(BlockBreakEvent event) {
-        boolean isSellChest = false;
+        if (!ChestTicker.getChestsToTick().containsKey(event.getBlock().getLocation())) return;
 
-        for (String chests : UserMadeConfig.getChests().keySet()) {
-            if (event.getBlock().hasMetadata("sell_chest_" + chests)) {
-                isSellChest = true;
-                break;
-            }
-        }
-
-        if (!isSellChest) return;
         SellChestUser user = Users.getUser(event.getPlayer());
         Preconditions.checkNotNull(user, "The SellChestUser was null!");
 

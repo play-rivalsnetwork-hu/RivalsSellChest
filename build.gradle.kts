@@ -23,6 +23,12 @@ allprojects {
 
         // Jitpack
         maven("https://jitpack.io")
+
+        // BG-Software
+        maven("https://repo.bg-software.com/repository/api/")
+
+        // Rosewood Development
+        maven("https://repo.rosewooddev.io/repository/public/")
     }
 
     dependencies {
@@ -66,7 +72,7 @@ bukkit {
     load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
     authors = listOf("Karcsi", "BenceX100")
     description = "SellChest plugin with performance in-mind."
-    softDepend = listOf("ShopGUIPlus", "Vault")
+    softDepend = listOf("ShopGUIPlus", "Vault", "WildStacker", "RoseStacker")
 
     commands {
         register("sellchest")
