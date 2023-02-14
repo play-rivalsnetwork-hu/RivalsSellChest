@@ -8,6 +8,7 @@ import hu.rivalsnetwork.rivalssellchest.chests.PlacedChest;
 import hu.rivalsnetwork.rivalssellchest.config.UserMadeConfig;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.user.Users;
+import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
@@ -58,13 +59,16 @@ public class SellChestInteractListener implements Listener {
     @EventHandler
     public void onBlockBreakEvent(BlockBreakEvent event) {
         if (!ChestTicker.getChestsToTick().containsKey(event.getBlock().getLocation())) return;
-
         SellChestUser user = Users.getUser(event.getPlayer());
         Preconditions.checkNotNull(user, "The SellChestUser was null!");
 
         event.setCancelled(true);
         PlacedChest placedChest = ChestTicker.getChestsToTick().get(event.getBlock().getLocation());
         if (placedChest == null) return;
+        if (placedChest.ownerUUID() != event.getPlayer().getUniqueId()) {
+            MessageUtil.sendOptionalMessage(event.getPlayer(), "not-owner");
+            return;
+        }
 
         AbstractChest abstractChest = placedChest.abstractChest();
 

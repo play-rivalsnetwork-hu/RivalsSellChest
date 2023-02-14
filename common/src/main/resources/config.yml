@@ -12,13 +12,6 @@ allow-bStats: false
 # Whether to check for updates
 check-updates: false
 
-storage:
-  type: local # Available options: local, MySQL, MariaDB,
-  address: ""
-  password: ""
-  username: ""
-  database: ""
-
 # Allow debug
 debug: false
 

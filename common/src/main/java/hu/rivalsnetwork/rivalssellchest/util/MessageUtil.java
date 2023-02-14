@@ -4,6 +4,7 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
 import hu.rivalsnetwork.rivalssellchest.config.Config;
 import hu.rivalsnetwork.rivalssellchest.config.Messages;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +26,7 @@ public class MessageUtil {
     }
 
     public static void sendOptionalMessage(@NotNull Player player, @NotNull String route) {
-        messagesConfig.getOptionalString(route).ifPresent(player::sendMessage);
+        messagesConfig.getOptionalString(route).ifPresent(message -> player.sendMessage(MiniMessage.miniMessage().serialize(MiniMessage.miniMessage().deserialize(message))));
     }
 
     public void sendMessage(@NotNull Player player, @NotNull String message) {

@@ -1,6 +1,7 @@
 messages:
   prefix: "<gradient:#FBFB7F:#FD9B48><b>RivalsSellChest</gradient></b> <gray>» <reset>"
   no-permission: "<red>You don't have permission to do this!"
+  not-owner: "<red>You are not the owner of this chest!"
   break: ""
   place: ""
 
