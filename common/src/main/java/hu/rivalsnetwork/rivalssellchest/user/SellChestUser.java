@@ -77,7 +77,10 @@ public class SellChestUser {
 
     public void save() {
         if (placedChests != null) {
+            file.set("chests", null);
+
             for (PlacedChest chest : placedChests) {
+                if (chest == null) continue;
                 chest.serialize(loop);
                 loop++;
             }

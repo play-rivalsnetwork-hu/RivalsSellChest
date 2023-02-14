@@ -26,6 +26,11 @@ public class ChestTicker implements Listener {
                     continue;
                 }
 
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException exception) {
+                    exception.printStackTrace();
+                }
                 placedChest.tick();
             }
         }, 0L, chest.sellInterval());

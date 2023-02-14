@@ -6,12 +6,7 @@ import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
 import hu.rivalsnetwork.rivalssellchest.chests.AbstractChest;
 import hu.rivalsnetwork.rivalssellchest.chests.ChestTicker;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +26,10 @@ public class UserMadeConfig extends AbstractConfig {
 
     public static HashMap<String, AbstractChest> getChests() {
         return chests;
+    }
+
+    public static List<String> getChestList() {
+        return chestList;
     }
 
     @Override
@@ -59,10 +58,6 @@ public class UserMadeConfig extends AbstractConfig {
             configs.add(ConfigLoader.create(file));
         }
         loadChests();
-    }
-
-    public static List<String> getChestList() {
-        return chestList;
     }
 
     private void loadChests() {
