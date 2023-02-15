@@ -5,7 +5,6 @@ import hu.rivalsnetwork.rivalssellchest.chests.PlacedChest;
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChestLoader;
 import hu.rivalsnetwork.rivalssellchest.command.SellChestCommand;
 import hu.rivalsnetwork.rivalssellchest.config.ConfigLoader;
-import hu.rivalsnetwork.rivalssellchest.config.UserMadeConfig;
 import hu.rivalsnetwork.rivalssellchest.listener.SellChestInteractListener;
 import hu.rivalsnetwork.rivalssellchest.listener.UserConnectionListener;
 import hu.rivalsnetwork.rivalssellchest.provider.ProviderLoader;
