@@ -1,5 +1,7 @@
 package hu.rivalsnetwork.rivalssellchest.listener;
 
+import hu.rivalsnetwork.rivalssellchest.user.OfflineSellChestUser;
+import hu.rivalsnetwork.rivalssellchest.user.OfflineUserLoader;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.user.Users;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
@@ -12,6 +14,11 @@ public class UserConnectionListener implements Listener {
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
+        OfflineSellChestUser offlineUser = Users.getOfflineUser(event.getPlayer());
+        if (offlineUser != null) {
+            offlineUser.unload();
+        }
+
         MessageUtil.debugMessage("PlayerJoinEvent");
         SellChestUser user = new SellChestUser(event.getPlayer().getUniqueId());
         user.load();
@@ -21,6 +28,7 @@ public class UserConnectionListener implements Listener {
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
         SellChestUser user = Users.getUser(event.getPlayer().getUniqueId());
         if (user == null) return;
+        OfflineUserLoader.load(user.file());
         user.unload();
     }
 }

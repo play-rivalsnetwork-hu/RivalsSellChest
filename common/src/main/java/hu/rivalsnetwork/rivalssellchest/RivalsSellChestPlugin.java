@@ -8,6 +8,7 @@ import hu.rivalsnetwork.rivalssellchest.config.ConfigLoader;
 import hu.rivalsnetwork.rivalssellchest.listener.SellChestInteractListener;
 import hu.rivalsnetwork.rivalssellchest.listener.UserConnectionListener;
 import hu.rivalsnetwork.rivalssellchest.provider.ProviderLoader;
+import hu.rivalsnetwork.rivalssellchest.user.OfflineUserLoader;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
 import hu.rivalsnetwork.rivalssellchest.version.ServerVersionChecker;
 import org.bukkit.Bukkit;
@@ -29,6 +30,7 @@ public final class RivalsSellChestPlugin extends JavaPlugin {
 
         new ServerVersionChecker().verifyVersionSupport();
         new ConfigLoader().loadConfigs();
+        OfflineUserLoader.loadAll();
         PlacedChestLoader.loadAll();
         MessageUtil.update();
         new ProviderLoader().loadProviders();

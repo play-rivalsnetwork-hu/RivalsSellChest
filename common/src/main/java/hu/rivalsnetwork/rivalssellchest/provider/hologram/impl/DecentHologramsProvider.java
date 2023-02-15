@@ -13,11 +13,13 @@ public class DecentHologramsProvider implements HologramProvider {
 
     @Override
     public Hologram createHologram(String name, Location location, List<String> lines) {
-        return DHAPI.createHologram(name, location, lines);
+        Hologram hologram = DHAPI.createHologram(name, location, lines);
+        hologram.showAll();
+        return hologram;
     }
 
     @Override
     public void removeHologram(Hologram hologram) {
-        hologram.destroy();
+        hologram.delete();
     }
 }

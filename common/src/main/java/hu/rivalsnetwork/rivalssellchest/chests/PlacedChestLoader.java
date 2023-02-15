@@ -5,9 +5,10 @@ import hu.rivalsnetwork.rivalssellchest.RivalsSellChestPlugin;
 import hu.rivalsnetwork.rivalssellchest.config.ConfigLoader;
 import hu.rivalsnetwork.rivalssellchest.config.UserMadeConfig;
 import hu.rivalsnetwork.rivalssellchest.config.serializer.LocationSerializer;
+import hu.rivalsnetwork.rivalssellchest.user.OfflineSellChestUser;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
-import hu.rivalsnetwork.rivalssellchest.util.PlayerUtil;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -17,7 +18,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class PlacedChestLoader {
-    // This class will probably need a refactor
 
     public static void load(@NotNull SellChestUser user) {
         List<PlacedChest> placedChests = new ArrayList<>();
@@ -39,7 +39,34 @@ public class PlacedChestLoader {
                     .setItemsSold(config.getLong("chests." + chest + ".items-sold"))
                     .setMoney(config.getDouble("chests." + chest + ".money"))
                     .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"))
-                    .setPlayer(PlayerUtil.getOfflinePlayer(UUID.fromString(config.getString("uuid"))).join());
+                    .setPlayer(Bukkit.getOfflinePlayer(UUID.fromString(config.getString("uuid"))));
+
+            placedChests.add(placedChest);
+        }
+        user.setPlacedChests(placedChests);
+    }
+
+    public static void load(@NotNull OfflineSellChestUser user) {
+        List<PlacedChest> placedChests = new ArrayList<>();
+
+        if (user.file().getSection("chests") == null) {
+            user.setPlacedChests(placedChests);
+            return;
+        }
+
+        for (Object chest : user.file().getSection("chests").getKeys()) {
+            YamlDocument config = user.file();
+            PlacedChest placedChest = new PlacedChest()
+                    .setOwnerName(config.getString("name"))
+                    .setOwnerUUID(UUID.fromString(config.getString("uuid")))
+                    .setBank(config.getBoolean("chests." + chest + ".bank"))
+                    .setAbstractChest(UserMadeConfig.getChests().get(config.getString("chests." + chest + ".type")))
+                    .setAutoSellEnabled(config.getBoolean("chests." + chest + ".autosell"))
+                    .setLocation(LocationSerializer.deserialize("chests." + chest + ".location", config))
+                    .setItemsSold(config.getLong("chests." + chest + ".items-sold"))
+                    .setMoney(config.getDouble("chests." + chest + ".money"))
+                    .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"))
+                    .setPlayer(Bukkit.getOfflinePlayer(UUID.fromString(config.getString("uuid"))));
 
             placedChests.add(placedChest);
         }
@@ -60,7 +87,8 @@ public class PlacedChestLoader {
                     .setItemsSold(config.getLong("chests." + chest + ".items-sold"))
                     .setMoney(config.getDouble("chests." + chest + ".money"))
                     .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"))
-                    .setPlayer(PlayerUtil.getOfflinePlayer(UUID.fromString(config.getString("uuid"))).join());
+                    .setPlayer(Bukkit.getOfflinePlayer(UUID.fromString(config.getString("uuid"))))
+                    .setFile(config);
 
             ChestTicker.getChestsToTick().put(placedChest.location(), placedChest);
         }

@@ -2,13 +2,13 @@ package hu.rivalsnetwork.rivalssellchest.chests;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import eu.decentsoftware.holograms.api.holograms.Hologram;
-import eu.decentsoftware.holograms.api.holograms.HologramPage;
 import hu.rivalsnetwork.rivalssellchest.config.serializer.LocationSerializer;
 import hu.rivalsnetwork.rivalssellchest.nms.NMSSetup;
 import hu.rivalsnetwork.rivalssellchest.provider.economy.EconomyProviderLoader;
 import hu.rivalsnetwork.rivalssellchest.provider.hologram.HologramProviderLoader;
 import hu.rivalsnetwork.rivalssellchest.provider.prices.PricesProviderLoader;
 import hu.rivalsnetwork.rivalssellchest.provider.stacker.StackerProviderLoader;
+import hu.rivalsnetwork.rivalssellchest.user.OfflineSellChestUser;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.user.Users;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
@@ -20,7 +20,9 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -35,7 +37,17 @@ public class PlacedChest {
     private double money;
     private long itemsSold;
     private OfflinePlayer player;
-    private Hologram hologram;
+    private Hologram hologram = null;
+    private YamlDocument file;
+
+    public YamlDocument file() {
+        return file;
+    }
+
+    public PlacedChest setFile(YamlDocument file) {
+        this.file = file;
+        return this;
+    }
 
     public double money() {
         return money;
@@ -128,7 +140,7 @@ public class PlacedChest {
     }
 
     public void updateHologram() {
-        if (hologram != null) this.hologram.destroy();
+        removeHologram();
         this.hologram = HologramProviderLoader.getProvider().createHologram(this.ownerName + LocationSerializer.serialize(this.location), this.location, StringUtils.replaceInLines(abstractChest.hologramLines(), this));
     }
 
@@ -142,9 +154,30 @@ public class PlacedChest {
         AtomicReference<Double> amountToGive = new AtomicReference<>((double) 0);
         items.forEach((itemStack, item) -> amountToGive.set(amountToGive.get() + PricesProviderLoader.getProvider().getSellPrice(Users.getUser(this), this, itemStack, StackerProviderLoader.provider().getAmount(item))));
 
+        SellChestUser user = Users.getUser(this);
+        if (user == null) {
+            OfflineSellChestUser offlineUser = Users.getOfflineUser(this);
+            if (offlineUser == null) return;
+            List<PlacedChest> chestList = offlineUser.placedChests();
+
+            chestList.remove(this);
+            money = money + amountToGive.get();
+            itemsSold = itemsSold + items.size();
+
+            updateHologram();
+            EconomyProviderLoader.getProvider().giveBalance(player, amountToGive.get());
+
+            chestList.add(this);
+            offlineUser.setPlacedChests(chestList);
+            return;
+        }
+
+        user.placedChests().remove(this);
+
         money = money + amountToGive.get();
         itemsSold = itemsSold + items.size();
         MessageUtil.debugMessage("After: " + this);
+        user.placedChests().add(this);
 
         updateHologram();
         EconomyProviderLoader.getProvider().giveBalance(player, amountToGive.get());
