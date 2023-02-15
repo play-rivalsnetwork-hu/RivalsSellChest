@@ -1,9 +1,11 @@
 package hu.rivalsnetwork.rivalssellchest;
 
 import hu.rivalsnetwork.rivalssellchest.chests.ChestTicker;
+import hu.rivalsnetwork.rivalssellchest.chests.PlacedChest;
 import hu.rivalsnetwork.rivalssellchest.chests.PlacedChestLoader;
 import hu.rivalsnetwork.rivalssellchest.command.SellChestCommand;
 import hu.rivalsnetwork.rivalssellchest.config.ConfigLoader;
+import hu.rivalsnetwork.rivalssellchest.config.UserMadeConfig;
 import hu.rivalsnetwork.rivalssellchest.listener.SellChestInteractListener;
 import hu.rivalsnetwork.rivalssellchest.listener.UserConnectionListener;
 import hu.rivalsnetwork.rivalssellchest.provider.ProviderLoader;
@@ -40,7 +42,9 @@ public final class RivalsSellChestPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        for (PlacedChest chest : ChestTicker.getChestsToTick().values()) {
+            chest.removeHologram();
+        }
     }
 
     @Override

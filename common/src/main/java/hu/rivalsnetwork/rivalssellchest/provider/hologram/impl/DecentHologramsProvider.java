@@ -10,12 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DecentHologramsProvider implements HologramProvider {
-    private static final HashMap<AbstractChest, Hologram> map = new HashMap<>();
-
-    @Override
-    public HashMap<AbstractChest, Hologram> map() {
-        return map;
-    }
 
     @Override
     public Hologram createHologram(String name, Location location, List<String> lines) {
@@ -24,6 +18,6 @@ public class DecentHologramsProvider implements HologramProvider {
 
     @Override
     public void removeHologram(Hologram hologram) {
-        hologram.delete();
+        hologram.destroy();
     }
 }

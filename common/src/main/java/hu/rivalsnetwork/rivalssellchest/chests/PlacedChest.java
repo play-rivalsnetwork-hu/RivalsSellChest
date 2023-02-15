@@ -2,6 +2,7 @@ package hu.rivalsnetwork.rivalssellchest.chests;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import eu.decentsoftware.holograms.api.holograms.Hologram;
+import eu.decentsoftware.holograms.api.holograms.HologramPage;
 import hu.rivalsnetwork.rivalssellchest.config.serializer.LocationSerializer;
 import hu.rivalsnetwork.rivalssellchest.nms.NMSSetup;
 import hu.rivalsnetwork.rivalssellchest.provider.economy.EconomyProviderLoader;
@@ -126,9 +127,13 @@ public class PlacedChest {
         return this;
     }
 
-    private void updateHologram() {
+    public void updateHologram() {
         if (hologram != null) this.hologram.destroy();
         this.hologram = HologramProviderLoader.getProvider().createHologram(this.ownerName + LocationSerializer.serialize(this.location), this.location, StringUtils.replaceInLines(abstractChest.hologramLines(), this));
+    }
+
+    public void removeHologram() {
+        if (this.hologram != null) HologramProviderLoader.getProvider().removeHologram(this.hologram);
     }
 
     public void tick() {
