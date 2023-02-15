@@ -64,8 +64,13 @@ public class SellChestInteractListener implements Listener {
 
         event.setCancelled(true);
         PlacedChest placedChest = ChestTicker.getChestsToTick().get(event.getBlock().getLocation());
-        if (placedChest == null) return;
+        if (placedChest == null) {
+            MessageUtil.debugMessage("PlacedChest was null somehow, idk don't ask me...");
+            return;
+        }
+
         if (placedChest.ownerUUID() != event.getPlayer().getUniqueId()) {
+            MessageUtil.debugMessage("Not owner");
             MessageUtil.sendOptionalMessage(event.getPlayer(), "not-owner");
             return;
         }

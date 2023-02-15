@@ -10,10 +10,9 @@ import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.user.Users;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,6 +30,7 @@ public class PlacedChest {
     private AbstractChest abstractChest;
     private double money;
     private long itemsSold;
+    private OfflinePlayer player;
 
     public double money() {
         return money;
@@ -113,19 +113,29 @@ public class PlacedChest {
         return this;
     }
 
+    public OfflinePlayer player() {
+        return player;
+    }
+
+    public PlacedChest setPlayer(OfflinePlayer player) {
+        this.player = player;
+        return this;
+    }
+
     public void tick() {
+        MessageUtil.debugMessage("Before: " + this);
         HashMap<ItemStack, Item> items = NMSSetup.getHandler().getEntities(location);
         AtomicReference<Double> amountToGive = new AtomicReference<>((double) 0);
         items.forEach((itemStack, item) -> amountToGive.set(amountToGive.get() + PricesProviderLoader.getProvider().getSellPrice(Users.getUser(this), this, itemStack, StackerProviderLoader.provider().getAmount(item))));
 
         money = money + amountToGive.get();
         itemsSold = itemsSold + items.size();
+        MessageUtil.debugMessage("After: " + this);
 
-        Player player = Bukkit.getPlayer(ownerUUID);
         EconomyProviderLoader.getProvider().giveBalance(player, amountToGive.get());
-        if (player == null) return;
+        if (player.getPlayer() == null) return;
         if (amountToGive.get() <= 0.0D) return;
-        player.sendActionBar(MiniMessage.miniMessage().deserialize("<white>You gained <green>%money% <white>in the last 10 seconds!".replace("%money%", String.valueOf(amountToGive.get()))));
+        player.getPlayer().sendActionBar(MiniMessage.miniMessage().deserialize("<white>You gained <green>%money% <white>in the last 10 seconds!".replace("%money%", String.valueOf(amountToGive.get()))));
         MessageUtil.debugMessage("Giving " + amountToGive + " coins to " + ownerName);
     }
 

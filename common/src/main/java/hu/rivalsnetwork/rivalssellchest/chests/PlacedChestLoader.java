@@ -7,6 +7,7 @@ import hu.rivalsnetwork.rivalssellchest.config.UserMadeConfig;
 import hu.rivalsnetwork.rivalssellchest.config.serializer.LocationSerializer;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
+import hu.rivalsnetwork.rivalssellchest.util.PlayerUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -16,6 +17,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class PlacedChestLoader {
+    // This class will probably need a refactor
 
     public static void load(@NotNull SellChestUser user) {
         List<PlacedChest> placedChests = new ArrayList<>();
@@ -36,7 +38,8 @@ public class PlacedChestLoader {
                     .setLocation(LocationSerializer.deserialize("chests." + chest + ".location", config))
                     .setItemsSold(config.getLong("chests." + chest + ".items-sold"))
                     .setMoney(config.getDouble("chests." + chest + ".money"))
-                    .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"));
+                    .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"))
+                    .setPlayer(PlayerUtil.getOfflinePlayer(UUID.fromString(config.getString("uuid"))).join());
 
             placedChests.add(placedChest);
         }
@@ -56,7 +59,8 @@ public class PlacedChestLoader {
                     .setLocation(LocationSerializer.deserialize("chests." + chest + ".location", config))
                     .setItemsSold(config.getLong("chests." + chest + ".items-sold"))
                     .setMoney(config.getDouble("chests." + chest + ".money"))
-                    .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"));
+                    .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"))
+                    .setPlayer(PlayerUtil.getOfflinePlayer(UUID.fromString(config.getString("uuid"))).join());
 
             ChestTicker.getChestsToTick().put(placedChest.location(), placedChest);
         }
