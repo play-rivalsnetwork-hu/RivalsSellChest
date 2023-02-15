@@ -69,7 +69,7 @@ public class UserMadeConfig extends AbstractConfig {
                     .setBoost(document.getDouble("boost"))
                     .setSellInterval(document.getLong("sell-interval"))
                     .setHologramEnabled(document.getBoolean("hologram.enabled"))
-                    .setHologramLines(document.getList("hologram.lines"))
+                    .setHologramLines(document.getStringList("hologram.lines"))
                     .setHologramUpdateTicks(document.getLong("hologram.update"))
                     .setHologramHeight(document.getDouble("hologram.height"))
                     .setPersistentStats(document.getBoolean("persistent-stats"))

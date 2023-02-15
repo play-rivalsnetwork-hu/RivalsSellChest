@@ -20,7 +20,7 @@ public class AbstractChest {
     private double hologramHeight;
     private long hologramUpdateTicks;
     private boolean hologramEnabled;
-    private List<?> hologramLines;
+    private List<String> hologramLines;
     private YamlDocument file;
     private NamespacedKey key;
     private ItemStack itemStack;
@@ -106,11 +106,11 @@ public class AbstractChest {
         return this;
     }
 
-    public List<?> hologramLines() {
+    public List<String> hologramLines() {
         return hologramLines;
     }
 
-    public AbstractChest setHologramLines(List<?> hologramLines) {
+    public AbstractChest setHologramLines(List<String> hologramLines) {
         this.hologramLines = hologramLines;
         return this;
     }

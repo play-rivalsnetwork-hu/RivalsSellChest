@@ -1,14 +1,17 @@
 package hu.rivalsnetwork.rivalssellchest.chests;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
+import eu.decentsoftware.holograms.api.holograms.Hologram;
 import hu.rivalsnetwork.rivalssellchest.config.serializer.LocationSerializer;
 import hu.rivalsnetwork.rivalssellchest.nms.NMSSetup;
 import hu.rivalsnetwork.rivalssellchest.provider.economy.EconomyProviderLoader;
+import hu.rivalsnetwork.rivalssellchest.provider.hologram.HologramProviderLoader;
 import hu.rivalsnetwork.rivalssellchest.provider.prices.PricesProviderLoader;
 import hu.rivalsnetwork.rivalssellchest.provider.stacker.StackerProviderLoader;
 import hu.rivalsnetwork.rivalssellchest.user.SellChestUser;
 import hu.rivalsnetwork.rivalssellchest.user.Users;
 import hu.rivalsnetwork.rivalssellchest.util.MessageUtil;
+import hu.rivalsnetwork.rivalssellchest.util.StringUtils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -31,6 +34,7 @@ public class PlacedChest {
     private double money;
     private long itemsSold;
     private OfflinePlayer player;
+    private Hologram hologram;
 
     public double money() {
         return money;
@@ -122,6 +126,11 @@ public class PlacedChest {
         return this;
     }
 
+    private void updateHologram() {
+        if (hologram != null) this.hologram.destroy();
+        this.hologram = HologramProviderLoader.getProvider().createHologram(this.ownerName + LocationSerializer.serialize(this.location), this.location, StringUtils.replaceInLines(abstractChest.hologramLines(), this));
+    }
+
     public void tick() {
         MessageUtil.debugMessage("Before: " + this);
         HashMap<ItemStack, Item> items = NMSSetup.getHandler().getEntities(location);
@@ -132,6 +141,7 @@ public class PlacedChest {
         itemsSold = itemsSold + items.size();
         MessageUtil.debugMessage("After: " + this);
 
+        updateHologram();
         EconomyProviderLoader.getProvider().giveBalance(player, amountToGive.get());
         if (player.getPlayer() == null) return;
         if (amountToGive.get() <= 0.0D) return;
