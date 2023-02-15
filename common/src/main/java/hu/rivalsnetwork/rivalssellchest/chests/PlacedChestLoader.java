@@ -41,6 +41,8 @@ public class PlacedChestLoader {
                     .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"))
                     .setPlayer(Bukkit.getOfflinePlayer(UUID.fromString(config.getString("uuid"))));
 
+            MessageUtil.debugMessage(placedChest.toString());
+
             placedChests.add(placedChest);
         }
         user.setPlacedChests(placedChests);
@@ -68,6 +70,8 @@ public class PlacedChestLoader {
                     .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"))
                     .setPlayer(Bukkit.getOfflinePlayer(UUID.fromString(config.getString("uuid"))));
 
+            MessageUtil.debugMessage(placedChest.toString());
+
             placedChests.add(placedChest);
         }
         user.setPlacedChests(placedChests);
@@ -89,6 +93,8 @@ public class PlacedChestLoader {
                     .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"))
                     .setPlayer(Bukkit.getOfflinePlayer(UUID.fromString(config.getString("uuid"))))
                     .setFile(config);
+
+            MessageUtil.debugMessage(placedChest.toString());
 
             ChestTicker.getChestsToTick().put(placedChest.location(), placedChest);
         }

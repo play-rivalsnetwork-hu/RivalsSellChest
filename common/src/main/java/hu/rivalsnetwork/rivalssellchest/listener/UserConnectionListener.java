@@ -28,7 +28,7 @@ public class UserConnectionListener implements Listener {
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
         SellChestUser user = Users.getUser(event.getPlayer().getUniqueId());
         if (user == null) return;
-        OfflineUserLoader.load(user.file());
         user.unload();
+        OfflineUserLoader.load(user.file());
     }
 }
