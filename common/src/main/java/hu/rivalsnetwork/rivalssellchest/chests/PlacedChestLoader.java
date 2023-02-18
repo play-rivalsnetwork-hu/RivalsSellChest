@@ -30,6 +30,7 @@ public class PlacedChestLoader {
         for (Object chest : user.file().getSection("chests").getKeys()) {
             YamlDocument config = user.file();
             PlacedChest placedChest = new PlacedChest()
+                    .setPlayer(Bukkit.getOfflinePlayer(UUID.fromString(config.getString("uuid"))))
                     .setOwnerName(config.getString("name"))
                     .setOwnerUUID(UUID.fromString(config.getString("uuid")))
                     .setBank(config.getBoolean("chests." + chest + ".bank"))
@@ -39,7 +40,7 @@ public class PlacedChestLoader {
                     .setItemsSold(config.getLong("chests." + chest + ".items-sold"))
                     .setMoney(config.getDouble("chests." + chest + ".money"))
                     .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"))
-                    .setPlayer(Bukkit.getOfflinePlayer(UUID.fromString(config.getString("uuid"))));
+                    .setFile(config);
 
             MessageUtil.debugMessage(placedChest.toString());
 
@@ -59,6 +60,7 @@ public class PlacedChestLoader {
         for (Object chest : user.file().getSection("chests").getKeys()) {
             YamlDocument config = user.file();
             PlacedChest placedChest = new PlacedChest()
+                    .setPlayer(Bukkit.getOfflinePlayer(UUID.fromString(config.getString("uuid"))))
                     .setOwnerName(config.getString("name"))
                     .setOwnerUUID(UUID.fromString(config.getString("uuid")))
                     .setBank(config.getBoolean("chests." + chest + ".bank"))
@@ -68,8 +70,9 @@ public class PlacedChestLoader {
                     .setItemsSold(config.getLong("chests." + chest + ".items-sold"))
                     .setMoney(config.getDouble("chests." + chest + ".money"))
                     .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"))
-                    .setPlayer(Bukkit.getOfflinePlayer(UUID.fromString(config.getString("uuid"))));
+                    .setFile(config);
 
+            System.out.println(placedChest.player());
             MessageUtil.debugMessage(placedChest.toString());
 
             placedChests.add(placedChest);
@@ -82,6 +85,7 @@ public class PlacedChestLoader {
 
         for (Object chest : config.getSection("chests").getKeys()) {
             PlacedChest placedChest = new PlacedChest()
+                    .setPlayer(Bukkit.getOfflinePlayer(UUID.fromString(config.getString("uuid"))))
                     .setOwnerName(config.getString("name"))
                     .setOwnerUUID(UUID.fromString(config.getString("uuid")))
                     .setBank(config.getBoolean("chests." + chest + ".bank"))
@@ -91,9 +95,9 @@ public class PlacedChestLoader {
                     .setItemsSold(config.getLong("chests." + chest + ".items-sold"))
                     .setMoney(config.getDouble("chests." + chest + ".money"))
                     .setChunkCollectEnabled(config.getBoolean("chests." + chest + ".chunk-collector"))
-                    .setPlayer(Bukkit.getOfflinePlayer(UUID.fromString(config.getString("uuid"))))
                     .setFile(config);
 
+            System.out.println(placedChest.player());
             MessageUtil.debugMessage(placedChest.toString());
 
             ChestTicker.getChestsToTick().put(placedChest.location(), placedChest);

@@ -20,6 +20,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class SellChestInteractListener implements Listener {
     private static final NamespacedKey itemsSold = new NamespacedKey(RivalsSellChestPlugin.getInstance(), "rivalssellchest_sold_items");
     private static final NamespacedKey money = new NamespacedKey(RivalsSellChestPlugin.getInstance(), "rivalssellchest_money");
@@ -52,7 +54,10 @@ public class SellChestInteractListener implements Listener {
                 .setOwnerUUID(event.getPlayer().getUniqueId())
                 .setLocation(event.getBlock().getLocation());
 
-        user.placedChests().add(placedChest);
+        List<PlacedChest> chestList = user.placedChests();
+        chestList.add(placedChest);
+        user.setPlacedChests(chestList);
+        placedChest.updateHologram();
         ChestTicker.getChestsToTick().put(event.getBlockPlaced().getLocation(), placedChest);
     }
 
@@ -86,6 +91,7 @@ public class SellChestInteractListener implements Listener {
         event.getBlock().setType(Material.AIR);
 
         ChestTicker.getChestsToTick().remove(event.getBlock().getLocation());
+        placedChest.removeHologram();
         user.placedChests().remove(placedChest);
         event.getPlayer().getInventory().addItem(item);
     }

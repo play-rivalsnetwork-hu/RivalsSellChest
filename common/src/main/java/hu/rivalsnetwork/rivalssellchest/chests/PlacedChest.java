@@ -156,6 +156,7 @@ public class PlacedChest {
 
         SellChestUser user = Users.getUser(this);
         if (user == null) {
+            System.out.println("User is null");
             OfflineSellChestUser offlineUser = Users.getOfflineUser(this);
             if (offlineUser == null) return;
             List<PlacedChest> chestList = offlineUser.placedChests();

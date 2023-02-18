@@ -33,6 +33,7 @@ public class NMSHandler implements hu.rivalsnetwork.rivalssellchest.nms.NMSHandl
         MessageUtil.debugMessage(level.getEntitiesOfClass(ItemEntity.class, pos) + "");
 
         HashMap<ItemStack, Item> items = new HashMap<>();
+
         level.getEntitiesOfClass(ItemEntity.class, pos).forEach(itemEntity -> {
             MessageUtil.debugMessage(itemEntity.getType().toString());
             items.put(CraftItemStack.asCraftMirror(itemEntity.getItem()), new CraftItem(((CraftServer) Bukkit.getServer()).getServer().server, itemEntity));

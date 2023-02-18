@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("UnusedReturnValue")
-public class SellChestUser {
+public class SellChestUser extends OfflineSellChestUser {
     private final UUID uuid;
     private String name;
     private double boost;
@@ -23,6 +23,7 @@ public class SellChestUser {
     private Player player;
 
     public SellChestUser(UUID uuid) {
+        super(uuid);
         this.uuid = uuid;
     }
 
@@ -81,6 +82,7 @@ public class SellChestUser {
 
             for (PlacedChest chest : placedChests) {
                 if (chest == null) continue;
+                System.out.println(chest);
                 chest.serialize(loop);
                 loop++;
             }
