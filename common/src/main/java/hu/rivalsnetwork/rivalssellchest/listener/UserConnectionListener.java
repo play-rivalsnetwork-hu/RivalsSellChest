@@ -9,11 +9,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class UserConnectionListener implements Listener {
 
     @EventHandler
-    public void onPlayerJoinEvent(PlayerJoinEvent event) {
+    public void onPlayerJoinEvent(@NotNull PlayerJoinEvent event) {
         OfflineSellChestUser offlineUser = Users.getOfflineUser(event.getPlayer());
         if (offlineUser != null) {
             offlineUser.unload();
@@ -25,7 +26,7 @@ public class UserConnectionListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerQuitEvent(PlayerQuitEvent event) {
+    public void onPlayerQuitEvent(@NotNull PlayerQuitEvent event) {
         SellChestUser user = Users.getUser(event.getPlayer().getUniqueId());
         if (user == null) return;
         user.unload();

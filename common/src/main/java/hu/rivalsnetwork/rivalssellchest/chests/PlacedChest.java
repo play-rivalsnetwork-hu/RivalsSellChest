@@ -20,7 +20,6 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -141,7 +140,8 @@ public class PlacedChest {
 
     public void updateHologram() {
         removeHologram();
-        this.hologram = HologramProviderLoader.getProvider().createHologram(this.ownerName + LocationSerializer.serialize(this.location), this.location, StringUtils.replaceInLines(abstractChest.hologramLines(), this));
+        Location hologramLoc = this.location.clone().add(0.5, abstractChest.hologramHeight(), 0.5);
+        this.hologram = HologramProviderLoader.getProvider().createHologram(this.ownerName + LocationSerializer.serialize(hologramLoc), hologramLoc, StringUtils.replaceInLines(abstractChest.hologramLines(), this));
     }
 
     public void removeHologram() {
@@ -189,9 +189,16 @@ public class PlacedChest {
 
     public void serialize(int number) {
         SellChestUser user = Users.getUser(ownerUUID);
-        if (user == null) return;
-        YamlDocument file = user.file();
-        MessageUtil.debugMessage(toString());
+        YamlDocument file;
+        OfflineSellChestUser user1;
+
+        if (user == null) {
+            user1 = Users.getOfflineUser(ownerUUID);
+            if (user1 == null) return;
+            file = user1.file();
+        } else {
+            file = user.file();
+        }
 
         set(file, "money", number, money);
         set(file, "items-sold", number, itemsSold);
